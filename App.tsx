@@ -1,19 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import 'react-native-gesture-handler';
+import { StyleSheet } from 'react-native';
+import * as eva from '@eva-design/eva';
+import { ApplicationProvider, Button, IconRegistry, Layout, Text } from '@ui-kitten/components';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from './components/Home';
+import Verify from './components/Verify';
+import Login from './components/Login';
+import Register from './components/Register';
+import Forgot from './components/Forgot';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
+import React from 'react';
+
+
+
+const Stack = createStackNavigator();
+
+function AuthStack(){ //Dan nevezte el az authStackot authStacknak
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name = "Login" component={Login}/>
+      <Stack.Screen name = "Verify" component={Verify}/>
+      <Stack.Screen name = "Register" component={Register}/>
+      <Stack.Screen name = "Forgot" component={Forgot}/>
+      <Stack.Screen name ="Home" component={Home} options={{gestureEnabled: false}}/>
+    </Stack.Navigator>
+  );
+
+}
+
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+    <IconRegistry icons={EvaIconsPack} />
+    <ApplicationProvider {...eva} theme={eva.dark}>
+      <NavigationContainer>
+        <AuthStack/>
+      </NavigationContainer>
+    </ApplicationProvider>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
