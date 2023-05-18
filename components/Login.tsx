@@ -79,6 +79,7 @@ export default function Login({ navigation }: Props){
               value={email}
               onChangeText={(text) => setEmail(text)}
               autoCapitalize='none'
+              inputMode='email'
             />
 
             <Input //Password Input
