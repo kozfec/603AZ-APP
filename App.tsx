@@ -11,6 +11,18 @@ import Register from './components/Register';
 import Forgot from './components/Forgot';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import React from 'react';
+import { myTheme } from './custom-theme';
+import { Amplify } from 'aws-amplify';
+
+Amplify.configure({
+  Auth: {
+    mandatorySignin: true,
+    region: "us-east-1",
+    userPoolId: "us-east-1_Gm5qNhGa8",
+    userPoolWebClientId: "jgh9ka0gpaqlctklhqqufh2gi",
+  }
+});
+
 
 
 
@@ -29,13 +41,13 @@ function AuthStack(){ //Dan nevezte el az authStackot authStacknak
 
 }
 
-
+//... is the spread operator. Keep an eye on it! Do research of it. 
 
 export default function App() {
   return (
     <>
-    <IconRegistry icons={EvaIconsPack} />
-    <ApplicationProvider {...eva} theme={eva.dark}>
+    <IconRegistry icons={EvaIconsPack} /> 
+    <ApplicationProvider {...eva} theme={{...eva.dark, ...myTheme}}>  
       <NavigationContainer>
         <AuthStack/>
       </NavigationContainer>

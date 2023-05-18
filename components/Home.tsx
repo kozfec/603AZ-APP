@@ -14,6 +14,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 const BottomTabBar = ({ navigation, state }: Props) => (
     <BottomNavigation
+      style={styles.tabBg}
       selectedIndex={state.index}
       onSelect={index => navigation.navigate(state.routeNames[index])}>
       <BottomNavigationTab title='ARTISTS'/>
@@ -43,6 +44,10 @@ export default function Home({ navigation }: Props){
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+      flex: 1,
+      backgroundColor: "black",
       },
+      tabBg: {
+        backgroundColor: "black",
+      }
 })

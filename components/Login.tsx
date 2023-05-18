@@ -11,6 +11,8 @@ export default function Login({ navigation }: Props){
         <Text>Login Page"</Text>
         <Button onPress={() => navigation.navigate('Home')}>Go Home</Button>
         <Button onPress={() => navigation.navigate('Forgot')}>Forgot Password</Button>
+        <Button onPress={() => navigation.navigate('Verify')}>Verify</Button>
+        <Button onPress={() => navigation.navigate('Register')}>Register</Button>
       </Layout>
     );
 
@@ -19,5 +21,8 @@ export default function Login({ navigation }: Props){
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "black",
       },
-})
+});
