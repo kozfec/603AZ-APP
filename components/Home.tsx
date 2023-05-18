@@ -50,4 +50,4 @@ const styles = StyleSheet.create({
       tabBg: {
         backgroundColor: "black",
       }
-})
+});
