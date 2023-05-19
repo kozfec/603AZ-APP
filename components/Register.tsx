@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Layout, Text, TopNavigation } from '@ui-kitten/components';
+import { ApplicationProvider, Button, Input, Layout, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import { useState } from 'react';
 import { Auth } from 'aws-amplify';
@@ -12,11 +12,19 @@ export default function Register({ navigation }: Props){
   const [username,setUsername] = useState('');
   const [password,setPassword] = useState('');
   const [name,setName] = useState('');
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
 
   const BackAction = (): React.ReactElement => (
     <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>Back</Button>
    );
+
+
+  const navigateLogin = () => {
+    navigation.goBack()
+  };
+
+
 
    async function signUp() {
     try {
@@ -38,8 +46,55 @@ export default function Register({ navigation }: Props){
     return(
         <Layout style={styles.container}>
           <SafeAreaView style={{ flex: 1 }}>
-
             <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>VaporAudio</Text>} alignment='center' />
+          <View style={styles.headerContainer}>
+            <Text
+              category='h1'>
+              Welcome to VapourAudio
+            </Text>
+            <Text category='s1'>
+              Sign Up
+            </Text>
+          </View>
+          <View style= {styles.formContainer}>
+            <Input
+              style= {styles.formInput}
+              autoCapitalize='none'
+              placeholder= 'Name'
+              value={name}
+              onChangeText={text => setName(text)}
+            />
+
+            <Input
+              style= {styles.formInput}
+              autoCapitalize='none'
+              placeholder='Email'
+              value= {username}
+              onChangeText={text => setUsername(text)}
+              keyboardType='email-address'
+              textContentType='emailAddress'
+            />
+            <Input
+              style= {styles.formInput}
+              autoCapitalize='none'
+              secureTextEntry= {!passwordVisible}
+              placeholder='Password'
+              value={password}
+              onChangeText={text => setPassword(text)}
+            />
+          </View>
+          <Button
+            style= {styles.signUpButton}
+            size='giant'
+            onPress={signUp}>
+              Sign Up
+          </Button>
+          <Button
+            style= {styles.signInButton}
+            status='basic'
+            onPress={navigateLogin}>
+              Already have an account? Sign In
+          </Button>
           </SafeAreaView>
         </Layout>
     );
@@ -53,5 +108,25 @@ const styles = StyleSheet.create({
   },
   barBg: {
       backgroundColor: "black"
-  }
+  },
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    minHeight: 170,
+  },
+  formContainer: {
+    flex: 1,
+    paddingTop: 32,
+    paddingHorizontal: 16,
+  },
+  formInput: {
+    marginTop: 16,
+  },
+  signUpButton: {
+    marginHorizontal: 16,
+  },
+  signInButton: {
+    marginVertical: 12,
+    marginHorizontal: 16,
+  },
 });
