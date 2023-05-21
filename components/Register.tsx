@@ -15,7 +15,7 @@ export default function Register({ navigation }: Props) {
   const [name, setName] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  const arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
+  let arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
   const BackAction = (): React.ReactElement => (
     <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>{arrowCharacter} Back</Button>
   );
@@ -34,15 +34,7 @@ export default function Register({ navigation }: Props) {
       </View>
     );
   };
-
-
-
-
-
   /////////////////////////////////////////////////
-
-
-
   async function signUp() {
     try {
       const email = username;

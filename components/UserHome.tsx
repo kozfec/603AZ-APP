@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import VehicleInfoPage from './VehicleInfoPage';
 
 export default function UserHome({ navigation }: Props) {
 
@@ -14,16 +15,17 @@ export default function UserHome({ navigation }: Props) {
   const BackAction = (): React.ReactElement => (
     <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>{arrowCharacter} Log out</Button>
   );
-  const navigateLogin = () => {
-    navigation.goBack()
+
+//  const navigateLogin = () => {
+//    navigation.goBack()
+//  };
+
+
+
+
+  const navigateVehicleInfoPage = () => {
+    navigation.navigate('VehicleInfoPage')
   };
-
-
-
-
-  // function navigateGarage(event: GestureResponderEvent): void {
-  // throw new Error('Function not implemented.');
-  //}
 
   return (
     <Layout style={styles.container}>
@@ -46,14 +48,19 @@ export default function UserHome({ navigation }: Props) {
               LGM-488
             </Text>
           </View>
+
           <View style={styles.buttonContainer}>
+
             <Button 
               style={styles.vehicleInfoButton}
               size='giant'
               accessibilityLabel='Vehicle Information'
+              //onPress={() => navigation.navigate('VehicleInfoPage')}
+              onPress={navigateVehicleInfoPage}
             >
               VEHICLE INFORMATION
             </Button>
+
             <Button
               style={styles.vehiclePartButton}
               status='basic'

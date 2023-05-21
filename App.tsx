@@ -13,6 +13,7 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import React from 'react';
 import { myTheme } from './custom-theme';
 import { Amplify } from 'aws-amplify';
+import VehicleInfoPage from './components/VehicleInfoPage';
 
 Amplify.configure({
   Auth: {
@@ -36,6 +37,7 @@ function AuthStack(){ //Dan nevezte el az authStackot authStacknak
       <Stack.Screen name = "Register" component={Register}/>
       <Stack.Screen name = "Forgot" component={Forgot}/>
       <Stack.Screen name ="Home" component={Home} options={{gestureEnabled: false}}/>
+      <Stack.Screen name = "VehicleInfoPage" component={VehicleInfoPage}/>
     </Stack.Navigator>
   );
 
