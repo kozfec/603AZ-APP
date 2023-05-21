@@ -1,30 +1,31 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Input, Layout, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import { useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-export default function Register({ navigation }: Props){
+export default function Register({ navigation }: Props) {
 
-  const [username,setUsername] = useState('');
-  const [password,setPassword] = useState('');
-  const [name,setName] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-
+  const arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
   const BackAction = (): React.ReactElement => (
-    <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>Back</Button>
-   );
+    <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>{arrowCharacter} Back</Button>
+  );
 
 
   const navigateLogin = () => {
     navigation.goBack()
   };
   //////////////////////////////////////////////////
-  const renderCaption = (): React.ReactElement => {
+  const renderCaption = (): React.ReactElement => { //Adds a caption underneath the password textinput specifying password requirements for usability purposes.
     return (
       <View style={styles.captionContainer}>
         <Text style={styles.captionText}>
@@ -42,16 +43,16 @@ export default function Register({ navigation }: Props){
 
 
 
-   async function signUp() {
+  async function signUp() {
     try {
       const email = username;
-      await Auth.signUp({username, password, attributes: {name , email}});
+      await Auth.signUp({ username, password, attributes: { name, email } });
       console.log('Sign-up Confirmed');
       navigation.navigate('Verify');
     } catch (error) {
       console.log('Error signing up', error);
-    }    
-   }
+    }
+  }
 
 
 
@@ -59,73 +60,80 @@ export default function Register({ navigation }: Props){
 
 
 
-    return(
-        <Layout style={styles.container}>
-          <SafeAreaView style={{ flex: 1 }}>
-            <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>VaporAudio</Text>} alignment='center' />
+  return (
+    <Layout style={styles.container}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView
+          style={{ backgroundColor: '#000000' }}
+          scrollEnabled={true}
+        >
+          <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>VaporAudio</Text>} alignment='center' />
+
           <View style={styles.headerContainer}>
             <Text
               category='h1'>
-              Welcome to VapourAudio
+              Welcome to VapourAudio hello
             </Text>
             <Text category='s1'>
               Sign Up
             </Text>
           </View>
-          <View style= {styles.formContainer}>
+          <View style={styles.formContainer}>
             <Input
-              style= {styles.formInput}
+              style={styles.formInput}
               autoCapitalize='none'
-              placeholder= 'Name'
+              placeholder='Name'
               value={name}
               onChangeText={text => setName(text)}
             />
 
             <Input
-              style= {styles.formInput}
+              style={styles.formInput}
               autoCapitalize='none'
               placeholder='Email'
-              value= {username}
+              value={username}
               onChangeText={text => setUsername(text)}
               keyboardType='email-address'
               textContentType='emailAddress'
-              
+
             />
             <Input
-              style= {styles.formInput}
+              style={styles.formInput}
               autoCapitalize='none'
-              secureTextEntry= {!passwordVisible}
+              secureTextEntry={!passwordVisible}
               placeholder='Password'
               caption={renderCaption}
               value={password}
               onChangeText={text => setPassword(text)}
             />
           </View>
-          <Button
-            style= {styles.signUpButton}
-            size='giant'
-            onPress={signUp}>
-              Sign Up
-          </Button>
-          <Button
-            style= {styles.signInButton}
-            status='basic'
-            onPress={navigateLogin}>
-              Already have an account? Sign In
-          </Button>
-          </SafeAreaView>
-        </Layout>
-    );
+        </KeyboardAwareScrollView>
+        <Button
+          style={styles.signUpButton}
+          size='giant'
+          onPress={signUp}>
+          Sign Up
+        </Button>
+        <Button
+          style={styles.signInButton}
+          status='basic'
+          onPress={navigateLogin}>
+          Already have an account? Sign In
+        </Button>
+      </SafeAreaView>
+    </Layout>
+
+  );
 
 }
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      backgroundColor: "black",
+    flex: 1,
+    backgroundColor: "black",
   },
   barBg: {
-      backgroundColor: "black"
+    backgroundColor: "black"
   },
   headerContainer: {
     justifyContent: 'center',

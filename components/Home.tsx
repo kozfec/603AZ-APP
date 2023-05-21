@@ -5,8 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, ApplicationProvider, Button, Layout, Text, Tab } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import Account from './Account';
-import Album from './Album';
-import Artists from './Artists';
+import Garage from './Garage';
+import UserHome from './UserHome';
 
 
 const { Navigator, Screen } = createBottomTabNavigator();
@@ -17,16 +17,16 @@ const BottomTabBar = ({ navigation, state }: Props) => (
       style={styles.tabBg}
       selectedIndex={state.index}
       onSelect={index => navigation.navigate(state.routeNames[index])}>
-      <BottomNavigationTab title='ARTISTS'/>
-      <BottomNavigationTab title='ALBUM'/>
+      <BottomNavigationTab title='HOME'/>
+      <BottomNavigationTab title='MY GARAGE'/>      
       <BottomNavigationTab title='ACCOUNT'/>
     </BottomNavigation>
   );
   
   const TabNavigator = () => (
     <Navigator tabBar={props => <BottomTabBar {...props} />}>
-      <Screen name='Artists' component={Artists}/>
-      <Screen name='Album' component={Album}/>
+      <Screen name='UserHome' component={UserHome}/>
+      <Screen name='My garage' component={Garage}/>      
       <Screen name='Account' component={Account}/>
     </Navigator>
   );
@@ -38,6 +38,7 @@ export default function Home({ navigation }: Props){
         <Layout style={styles.container}>
             <TabNavigator/>
       </Layout>
+      
     );
 
 }
@@ -49,5 +50,8 @@ const styles = StyleSheet.create({
       },
       tabBg: {
         backgroundColor: "black",
-      }
+      },
+      signUpButton: {
+        marginHorizontal: 16,
+      },
 });

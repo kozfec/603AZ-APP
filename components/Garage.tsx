@@ -4,12 +4,12 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Layout, Text } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 
-export default function Album({ navigation }: Props){
+export default function Garage({ navigation }: Props){
 
     return(
         <Layout style={styles.container}>
-        <Text>Album Page"</Text>
-        <Button>IM a Button</Button>
+        <Text>Welcome to my garage"</Text>
+        <Button>Garage button</Button>
       </Layout>
     );
 

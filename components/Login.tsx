@@ -6,6 +6,7 @@ import { Props } from '@ui-kitten/components/devsupport/services/props/props.ser
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from 'react';
 import { Auth } from 'aws-amplify';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
 
@@ -66,6 +67,10 @@ export default function Login({ navigation }: Props){
     return(
       <Layout style={styles.container}>
         <SafeAreaView style= {{flex:1}}>
+        <KeyboardAwareScrollView
+          style={{ backgroundColor: '#000000' }}
+          scrollEnabled={true}
+        >
           <View style= {styles.headerContainer}>
             <Text category='h1'>CarSmart App</Text>
             <Text style={styles.signInLabel} category='s1'>
@@ -92,6 +97,7 @@ export default function Login({ navigation }: Props){
               autoCorrect={false}
             />
             <View style = {styles.forgotPasswordContainer}>
+            
               <Button
                 style={styles.forgotPasswordButton}
                 appearance='ghost'
@@ -100,6 +106,7 @@ export default function Login({ navigation }: Props){
               </Button>
             </View>
           </View>
+          </KeyboardAwareScrollView>
           <Button
             style={styles.signInButton}
             size='giant'

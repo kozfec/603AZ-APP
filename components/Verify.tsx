@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Input, Layout, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
@@ -39,20 +39,22 @@ export default function Verify({ navigation }: Props){
               To verify, enter your email and verification code to complete registration.
             </Text>
           </View>
-          <View style= {styles.formContainer}>
+          <KeyboardAvoidingView style= {styles.formContainer} behavior="height">
             <Input
               placeholder='Email'
               value={username}
               onChangeText= {text => setUsername(text)}
               autoCapitalize='none'
+              inputMode='email'
               />
               <Input
                 placeholder='Verification code'
                 value={authCode}
                 onChangeText={text => setAuthCode(text)}
                 autoCapitalize='none'
+                inputMode='numeric'
                 />
-          </View>
+          </KeyboardAvoidingView>
           <Button 
           style= {styles.signUpButton}
           status='success'
