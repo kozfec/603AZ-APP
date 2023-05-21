@@ -23,6 +23,22 @@ export default function Register({ navigation }: Props){
   const navigateLogin = () => {
     navigation.goBack()
   };
+  //////////////////////////////////////////////////
+  const renderCaption = (): React.ReactElement => {
+    return (
+      <View style={styles.captionContainer}>
+        <Text style={styles.captionText}>
+          The password must contain at least 8 characters, a special character and an uppercase letter
+        </Text>
+      </View>
+    );
+  };
+
+
+
+
+
+  /////////////////////////////////////////////////
 
 
 
@@ -73,12 +89,14 @@ export default function Register({ navigation }: Props){
               onChangeText={text => setUsername(text)}
               keyboardType='email-address'
               textContentType='emailAddress'
+              
             />
             <Input
               style= {styles.formInput}
               autoCapitalize='none'
               secureTextEntry= {!passwordVisible}
               placeholder='Password'
+              caption={renderCaption}
               value={password}
               onChangeText={text => setPassword(text)}
             />
@@ -128,5 +146,16 @@ const styles = StyleSheet.create({
   signInButton: {
     marginVertical: 12,
     marginHorizontal: 16,
+  },
+  captionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  captionText: {
+    fontSize: 12,
+    fontWeight: '400',
+    fontFamily: 'sans-serif',
+    color: '#8F9BB3',
   },
 });
