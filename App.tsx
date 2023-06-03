@@ -15,6 +15,7 @@ import { myTheme } from './custom-theme';
 import { Amplify } from 'aws-amplify';
 import VehicleInfoPage from './components/VehicleInfoPage';
 
+
 Amplify.configure({
   Auth: {
     mandatorySignin: true,

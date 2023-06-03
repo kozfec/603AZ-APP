@@ -21,7 +21,7 @@ export default function Forgot({ navigation }: Props) {
     let arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
     const BackAction = (): React.ReactElement => (
 
-        <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>{arrowCharacter}Back</Button>
+        <Button onPress={() => navigation.navigate('Login')} appearance='ghost' status= 'warning'>{arrowCharacter}Back</Button>
     );
 
     return (
@@ -29,7 +29,7 @@ export default function Forgot({ navigation }: Props) {
             <TopNavigation accessoryLeft={BackAction} style={styles.barBg} />
             <SafeAreaView style={{ flex: 1 }}>
                 <KeyboardAwareScrollView
-                    style={{ backgroundColor: '#000000' }}
+                    style={{ backgroundColor: '#12171C' }}
                     scrollEnabled={true}
                 >
                     <View style={styles.headerContainer} >
@@ -39,7 +39,7 @@ export default function Forgot({ navigation }: Props) {
                         </Text>
                     </View>
 
-                    <View style={styles.formContainer}>
+                    <View style={styles.formInput}>
                         <Input //Email Input
                             placeholder='Email'
                             value={email}
@@ -60,23 +60,29 @@ export default function Forgot({ navigation }: Props) {
 }
 
 const styles = StyleSheet.create({
+    formInput: {
+        marginTop: 16,
+        backgroundColor:'#181E28',
+      },
     container: {
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "#12171C",
     },
 
     barBg: {
-        backgroundColor: "black"
+        backgroundColor: "#12171C"
     },
     headerContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: 216,
+        backgroundColor:'#12171C',
     },
     formContainer: {
         flex: 1,
         marignTop: 32,
         paddingHorizontal: 10,
+        backgroundColor:'#12171C',
     },
     signInLabel: {
         marginTop: 16,
@@ -84,5 +90,6 @@ const styles = StyleSheet.create({
     signInButton: {
         marginVertical: 12,
         marginHorizontal: 16,
+        backgroundColor: '#7A823C'
     },
 });

@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
-import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import VehicleInfoPage from './VehicleInfoPage';
 import { IItem } from '../interfaces/IItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,7 +18,7 @@ const Stack = createStackNavigator();
 function UserHomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name='theUserHome' component={LoadUserHome} />
+      <Stack.Screen name='UserHomeafterLogin' component={UserHomeafterLogin} />
       <Stack.Screen name='UserHome_1' component={UserHome_1} />
     </Stack.Navigator>
   )
@@ -34,7 +33,7 @@ export default function UserHomes({navigation}: Props) {
 
 //const auth.signOut <---call function for sign out
 
-export function LoadUserHome ({ navigation }: Props) {
+export function UserHomeafterLogin ({ navigation }: Props) {
 
   const arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
   const BackAction = (): React.ReactElement => (
@@ -62,20 +61,15 @@ export function LoadUserHome ({ navigation }: Props) {
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-
- /* const navigateVehicleInfoPage = () => {
-    navigation.navigate('VehicleInfoPage')
-  };*/
-
   const navigateItem = (item: IItem) => {
     navigation.navigate('UserHome_1', {paramKey: item.carReg})
   }
 
   return (
     <Layout style={styles.container}>
-      <TopNavigation style={styles.barBg} title={props => <Text {...props}>Smart Car App12</Text>} alignment='center' />
+      <TopNavigation style={styles.barBg} title={props => <Text {...props}>Welcome User</Text>} alignment='center' />
       <View style={{ flex: 1 }}>
-        {isLoading ? <Spinner style={styles.spinner} status='primary' /> : (
+        {isLoading ? <ActivityIndicator size= 'large' style={styles.spinner}  color="#83AF9F"/> : (
           <List style={styles.list} 
           data={data} 
          // keyExtractor={({ carReg, carMake }, index) => carReg} 
@@ -112,34 +106,38 @@ export function LoadUserHome ({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#046E5E",
+    backgroundColor: "#12171C",
   },
   barBg: {
-    backgroundColor: "#046E5E"
+    backgroundColor: "#181E28"
   },
   spinner: {
-    alignSelf: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    flex: 1,
+    
   },
   cardStyle: {
     height: 220,
     marginBottom: 4,
-    backgroundColor: '#FBEC96'
+    backgroundColor: '#1C3832'
   },
   cardBackground: {
     flex: 1,
-    backgroundColor: '#FBEC96',
+    backgroundColor: '#1C3832',
   },
   itemTitle: {
     zIndex: 1,
-    color: 'black'
+    color: 'white'
   },
   itemDescription: {
     zIndex: 1,
     marginVertical: 16,
-    color: 'black'
+    color: 'white'
   },
   list: {
-    backgroundColor: '#046E5E'
+    backgroundColor: '#12171C'
   }
 });
 

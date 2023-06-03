@@ -112,6 +112,7 @@ export default function Login({ navigation }: Props){
             style={styles.signInButton}
             size='giant'
             onPress={signIn}>Login
+            
           </Button>
 
           <Button
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
       signInButton: {
         marginVertical: 12,
         marginHorizontal: 16,
-        backgroundColor: '#7A823C'
+        backgroundColor: '#7A823C',
       },
       signUpButton: {
         marginVertical: 12,

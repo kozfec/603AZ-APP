@@ -7,7 +7,8 @@ export const myTheme = {
   "color-primary-200": "#BCEBD3",
   "color-primary-300": "#88C3AB",
   "color-primary-400": "#548777",
-  "color-primary-500": "#1C3832",
+  "color-primary-500": "#83AF9F",
+  //"color-primary-500": "#1C3832", original by the eva theme feco
   "color-primary-600": "#14302C",
   "color-primary-700": "#0E2827",
   "color-primary-800": "#081E20",
