@@ -17,15 +17,23 @@ export default function UserHome_1({ navigation, route }: Props) {
     const id= route.params.paramKey;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<IItem>({
+        carReg: "",
         carMake: "",
         carModel: "",
-        carRegistration: ""
+        carInformation: {
+          dryWeight: "",
+          fuelType: "",
+          enginePower: "",
+          engineSize: "",
+          driveTrain: ""
+        },
     });
   
     const getItem = async () => {
       try {
-        const response = await fetch(`https://yt41qm05o8.execute-api.us-east-1.amazonaws.com/Default/items/${id}`);
+        const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`);
         const json = await response.json();
+        json.carInformation = JSON.parse(json.carInformation);
         setData(json);
       } catch (error) {
         console.error(error);
@@ -40,8 +48,10 @@ export default function UserHome_1({ navigation, route }: Props) {
 
     return(
         <Layout style={styles.container}>
-            <Text>{data.carModel}</Text>
-            <Text>{data.carRegistration}</Text>
+            <Text style={styles.itemDescription} category='s1' status='control'>{data.carReg}</Text>
+            <Text style={styles.itemDescription} category='s1' status='control'>{data.carMake}</Text>
+            <Text style={styles.itemDescription} category='s1' status='control'>{data.carModel}</Text>
+            <Text style={styles.itemDescription} category='s1' status='control'>{data.carInformation.driveTrain}</Text>
         </Layout>
 
     )
@@ -68,10 +78,12 @@ const styles = StyleSheet.create({
     },
     itemTitle: {
       zIndex: 1,
+      color: 'white',
     },
     itemDescription: {
       zIndex: 1,
       marginVertical: 16,
+      color: 'white',
     },
     list: {
       backgroundColor: 'black'

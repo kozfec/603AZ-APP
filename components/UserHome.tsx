@@ -17,22 +17,22 @@ import UserHome_1 from "./UserHome_1";
 const Stack = createStackNavigator();
 
 function UserHomeStack() {
-  
-
   return (
     <Stack.Navigator>
-      <Stack.Screen name='UserHome' component={LoadUserHome} />
+      <Stack.Screen name='theUserHome' component={LoadUserHome} />
       <Stack.Screen name='UserHome_1' component={UserHome_1} />
     </Stack.Navigator>
   )
-
 }
-export default function UserHomes({navigatio}: Props) {
+
+
+export default function UserHomes({navigation}: Props) {
   return (
     <UserHomeStack/>
   )
 }
 
+//const auth.signOut <---call function for sign out
 
 export function LoadUserHome ({ navigation }: Props) {
 
@@ -46,7 +46,7 @@ export function LoadUserHome ({ navigation }: Props) {
 
   const getItems = async () => {
     try {
-      const response = await fetch('https://yt41qm05o8.execute-api.us-east-1.amazonaws.com/Default/items');
+      const response = await fetch('https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items');
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -68,25 +68,25 @@ export function LoadUserHome ({ navigation }: Props) {
   };*/
 
   const navigateItem = (item: IItem) => {
-    navigation.navigate('UserHome_1', {paramKey: item.carMake})
+    navigation.navigate('UserHome_1', {paramKey: item.carReg})
   }
 
   return (
     <Layout style={styles.container}>
-      <TopNavigation style={styles.barBg} title={props => <Text {...props}>Smart Car App</Text>} alignment='center' />
+      <TopNavigation style={styles.barBg} title={props => <Text {...props}>Smart Car App12</Text>} alignment='center' />
       <View style={{ flex: 1 }}>
         {isLoading ? <Spinner style={styles.spinner} status='primary' /> : (
           <List style={styles.list} 
           data={data} 
-         // keyExtractor={({ carMake, carModel }, index) => carMake} 
+         // keyExtractor={({ carReg, carMake }, index) => carReg} 
           renderItem={({ item }) => (
             <TouchableOpacity>
               <Card style={styles.cardStyle}
                 onPress={() => navigateItem(item)}>
                 <View >
-                  <Text style={styles.itemTitle} category='h2' status='control'>{item.carMake}</Text>
+                  <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
                   <Text style={styles.itemDescription} category='s1' status='control'>
-                    {item.carModel}
+                    {item.carMake}
                   </Text>
                 </View>
               </Card>
@@ -97,7 +97,6 @@ export function LoadUserHome ({ navigation }: Props) {
       </View>
     </Layout>
   );
-
 }
 
 
@@ -113,10 +112,10 @@ export function LoadUserHome ({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#046E5E",
   },
   barBg: {
-    backgroundColor: "black"
+    backgroundColor: "#046E5E"
   },
   spinner: {
     alignSelf: 'center',
@@ -124,21 +123,23 @@ const styles = StyleSheet.create({
   cardStyle: {
     height: 220,
     marginBottom: 4,
-    backgroundColor: 'red'
+    backgroundColor: '#FBEC96'
   },
   cardBackground: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: '#FBEC96',
   },
   itemTitle: {
     zIndex: 1,
+    color: 'black'
   },
   itemDescription: {
     zIndex: 1,
     marginVertical: 16,
+    color: 'black'
   },
   list: {
-    backgroundColor: 'black'
+    backgroundColor: '#046E5E'
   }
 });
 
@@ -151,101 +152,3 @@ const styles = StyleSheet.create({
 
 
 
-
-
-
-/*  <Layout style={styles.container}>
-
-    <SafeAreaView style={{ flex: 1 }}>
-
-      <KeyboardAwareScrollView
-        style={{ backgroundColor: '#000000' }}
-        scrollEnabled={true}
-      >
-        <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>VaporAudio</Text>} alignment='center' />
-
-        <View style={styles.headerContainer}>
-          <Text
-            category='h1'
-            style={styles.centeredText}>
-            Mercedes-Benz 300E 1980
-          </Text>
-          <Text category='s1'>
-            LGM-488
-          </Text>
-        </View>
-
-        <View style={styles.buttonContainer}>
-
-          <Button 
-            style={styles.vehicleInfoButton}
-            size='giant'
-            accessibilityLabel='Vehicle Information'
-            //onPress={() => navigation.navigate('VehicleInfoPage')}
-            onPress={navigateVehicleInfoPage}
-          >
-            VEHICLE INFORMATION
-          </Button>
-
-          <Button
-            style={styles.vehiclePartButton}
-            status='basic'
-            size='giant'
-            accessibilityLabel='Vehicle Parts'
-          // onPress={navigateGarage}>
-          >
-            VEHICLE PARTS
-          </Button>
-          <Button
-            style={styles.vehicleServicesButton}
-            status='basic'
-            size='giant'
-            accessibilityLabel='Vehicle Parts'
-          // onPress={navigateGarage}>
-          >
-            VEHICLE SERVICES
-          </Button>
-        </View>
-    </KeyboardAwareScrollView>
-  </SafeAreaView>
-  </Layout >
-);
-
-}
-
-const styles = StyleSheet.create({
-container: {
-  flex: 1,
-  backgroundColor: "black",
-},
-barBg: {
-  backgroundColor: "black"
-},
-headerContainer: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  minHeight: 150,
-
-},
-centeredText: {
-  textAlign:"center",
-},
-vehicleInfoButton: {
-  marginVertical: 12,
-  width: 300
-},
-vehiclePartButton: {
-  marginVertical: 12,
-  width: 300
-},
-vehicleServicesButton: {
-  marginVertical: 12,
-  width: 300
-},
-buttonContainer: {
-  flex: 1,
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-});*/

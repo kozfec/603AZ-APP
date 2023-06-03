@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Input, Layout, Text, TopNavigation } from '@ui-kitten/components';
+import { ApplicationProvider, Button, Input, Layout, Text, TopNavigation, Icon, IconElement, } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import { useState } from 'react';
 import { Auth } from 'aws-amplify';
@@ -15,11 +15,12 @@ export default function Register({ navigation }: Props) {
   const [name, setName] = useState('');
   const [passwordVisible, setPasswordVisible] = useState(false)
 
-  let arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
-  const BackAction = (): React.ReactElement => (
-    <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>{arrowCharacter} Back</Button>
-  );
 
+ /* let arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
+  const BackAction = (): React.ReactElement => (
+    <Button onPress={() => navigation.navigate('Login')} appearance='ghost' status='warning'>{arrowCharacter} Back</Button>
+  );
+  */
 
   const navigateLogin = () => {
     navigation.goBack()
@@ -35,6 +36,7 @@ export default function Register({ navigation }: Props) {
     );
   };
   /////////////////////////////////////////////////
+
   async function signUp() {
     try {
       const email = username;
@@ -56,25 +58,25 @@ export default function Register({ navigation }: Props) {
     <Layout style={styles.container}>
       <SafeAreaView style={{ flex: 1 }}>
         <KeyboardAwareScrollView
-          style={{ backgroundColor: '#000000' }}
+          style={{ backgroundColor: '#12171C' }}
           scrollEnabled={true}
         >
-          <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>VaporAudio</Text>} alignment='center' />
+          <TopNavigation style={styles.barBg} /*accessoryLeft={BackAction}*/ title={props => <Text {...props}></Text>} alignment='center' />
 
           <View style={styles.headerContainer}>
             <Text
               category='h1'>
-              Welcome to VapourAudio hello
+              Green Garage
             </Text>
-            <Text category='s1'>
-              Sign Up
+            <Text category='s2'>
+              Please register your account before you start!
             </Text>
           </View>
           <View style={styles.formContainer}>
             <Input
               style={styles.formInput}
               autoCapitalize='none'
-              placeholder='Name'
+              placeholder='User name'
               value={name}
               onChangeText={text => setName(text)}
             />
@@ -108,7 +110,7 @@ export default function Register({ navigation }: Props) {
         </Button>
         <Button
           style={styles.signInButton}
-          status='basic'
+          status='warning'
           onPress={navigateLogin}>
           Already have an account? Sign In
         </Button>
@@ -122,35 +124,42 @@ export default function Register({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: "#12171C",
   },
   barBg: {
-    backgroundColor: "black"
+    backgroundColor: "#12171C"
   },
+
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: 170,
+    backgroundColor:'#12171C'
   },
   formContainer: {
     flex: 1,
     paddingTop: 32,
     paddingHorizontal: 16,
+    backgroundColor: '#12171C',
   },
   formInput: {
     marginTop: 16,
+    backgroundColor:'#181E28',
   },
   signUpButton: {
     marginHorizontal: 16,
+    backgroundColor: '#7A823C'
   },
   signInButton: {
     marginVertical: 12,
     marginHorizontal: 16,
+    backgroundColor: '#1C3832'
   },
   captionContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#12171C',
   },
   captionText: {
     fontSize: 12,

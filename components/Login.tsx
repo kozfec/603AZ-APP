@@ -66,13 +66,13 @@ export default function Login({ navigation }: Props){
 
     return(
       <Layout style={styles.container}>
-        <SafeAreaView style= {{flex:1}}>
+        <SafeAreaView style= {{flex:1} } >
         <KeyboardAwareScrollView
-          style={{ backgroundColor: '#000000' }}
+          style={{ backgroundColor: '#12171C' }}
           scrollEnabled={true}
         >
           <View style= {styles.headerContainer}>
-            <Text category='h1'>CarSmart App</Text>
+            <Text category='h1'>Green Garage</Text>
             <Text style={styles.signInLabel} category='s1'>
               Sign in to your account
             </Text>
@@ -80,6 +80,7 @@ export default function Login({ navigation }: Props){
 
           <View style={styles.formContainer}>
             <Input //Email Input
+              style={styles.passwordInput}
               placeholder='Email'
               value={email}
               onChangeText={(text) => setEmail(text)}
@@ -101,7 +102,7 @@ export default function Login({ navigation }: Props){
               <Button
                 style={styles.forgotPasswordButton}
                 appearance='ghost'
-                status='basic'
+                status='warning'
                 onPress={navigateForgotten}>Forgot your password?
               </Button>
             </View>
@@ -115,40 +116,34 @@ export default function Login({ navigation }: Props){
 
           <Button
             style={styles.signUpButton}
-            status='basic'
+            //appearance='outline'
+            //status='info'
+            status='warning'
             size='giant'
             onPress={navigateRegister}>
-              CREATE AN ACCOUNT
+              Create an account
           </Button>
-
         </SafeAreaView>
       </Layout>
-      /*
-        <Layout style={styles.container}>
-        <Text>Login Page"</Text>
-        <Button onPress={() => navigation.navigate('Home')}>Go Home</Button>
-        <Button onPress={() => navigation.navigate('Forgot')}>Forgot Password</Button>
-        <Button onPress={() => navigation.navigate('Verify')}>Verify</Button>
-        <Button onPress={() => navigation.navigate('Register')}>Register</Button>
-      </Layout> */
     );
-
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "black",
+        backgroundColor: "#12171C",
       },
       headerContainer: {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: 216,
+        backgroundColor: '#12171C',
       },
       formContainer: {
         flex: 1,
         marignTop: 32,
         paddingHorizontal: 10,
+        backgroundColor: '#12171C',
       },
       signInLabel: {
         marginTop: 16,
@@ -156,10 +151,13 @@ const styles = StyleSheet.create({
       signInButton: {
         marginVertical: 12,
         marginHorizontal: 16,
+        backgroundColor: '#7A823C'
       },
       signUpButton: {
         marginVertical: 12,
         marginHorizontal: 16,
+        backgroundColor: '#1C3832'
+        //backgroundColor: '#195253'
       },
       forgotPasswordContainer: {
         flexDirection: 'row',
@@ -167,6 +165,7 @@ const styles = StyleSheet.create({
       },
       passwordInput: {
         marginTop: 16,
+        backgroundColor:'#181E28'
       },
       forgotPasswordButton: {
         paddingHorizontal: 0,

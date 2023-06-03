@@ -17,31 +17,30 @@ const BottomTabBar = ({ navigation, state }: Props) => (
       style={styles.tabBg}
       selectedIndex={state.index}
       onSelect={index => navigation.navigate(state.routeNames[index])}>
-      <BottomNavigationTab title='HOME'/>
-      <BottomNavigationTab title='MY GARAGE'/>      
+      <BottomNavigationTab title='MY GARAGE'/>
+      <BottomNavigationTab title='HOME'/>      
       <BottomNavigationTab title='ACCOUNT'/>
     </BottomNavigation>
   );
   
   const TabNavigator = () => (
-    <Navigator tabBar={props => <BottomTabBar {...props} />}>
+    <Navigator initialRouteName='UserHome' tabBar={props => <BottomTabBar {...props} />}>
+      <Screen name='My garage' component={Garage}/>
       <Screen name='UserHome' component={UserHome}/>
-      <Screen name='My garage' component={Garage}/>      
       <Screen name='Account' component={Account}/>
     </Navigator>
   );
 
 
 export default function Home({ navigation }: Props){
-
     return(
         <Layout style={styles.container}>
             <TabNavigator/>
-      </Layout>
-      
+      </Layout>      
     );
-
 }
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
       backgroundColor: "black",
       },
       tabBg: {
-        backgroundColor: "black",
+        backgroundColor: "#046E5E",
       },
       signUpButton: {
         marginHorizontal: 16,
