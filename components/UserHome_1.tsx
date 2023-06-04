@@ -13,15 +13,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
+
 export default function UserHome_1({ navigation, route }: Props) {
   /////////////////////////// Proba Navigate ///////////////////////////////////////////////////////////////////////////
-  const navigateVehicleInfoPage = () => {
-    navigation.navigate('VehicleInfoPage')
+  
+  /*const navigateVehicleInfoPage1 = (item: IItem) => {
+    navigation.navigate('UserHome_1', {paramKey: item.carReg})
   };
-
-
-
-
+*/
 
 
 
@@ -48,6 +47,8 @@ export default function UserHome_1({ navigation, route }: Props) {
           driveTrain: ""
         },
     });
+
+   
   
     const getItem = async () => {
       try {
@@ -65,6 +66,11 @@ export default function UserHome_1({ navigation, route }: Props) {
     useEffect(() => {
       getItem();
     }, []);
+
+    const navigateVehicleInfoPage = () => {
+      navigation.navigate('VehicleInfoPage', { remainingData: data.carInformation });
+    };//This will navigate to the VehicleInfoPage and pass the remainingData from the carInformation
+    // So it doesnt hit the APi again in the VehicleInfoPage
 
 
     const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
@@ -102,9 +108,8 @@ export default function UserHome_1({ navigation, route }: Props) {
 
 
           <TouchableOpacity>
-            <Card style={styles.cardStyle} onPress={navigateVehicleInfoPage}>
+            <Card style={styles.cardStyle} onPress={navigateVehicleInfoPage} >
               <Text  category='h4' status='control'>Vehicle Specification</Text>
-              <Button>Car Service Management</Button>
             </Card>
           </TouchableOpacity>
 
