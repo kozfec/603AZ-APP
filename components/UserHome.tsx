@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
-import { ActivityIndicator, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
-import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
+import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
@@ -11,6 +11,8 @@ import { IItem } from '../interfaces/IItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import UserHome_1 from "./UserHome_1";
+import { Ionicons } from '@expo/vector-icons'; 
+import VehicleInfoPage from './VehicleInfoPage';
 
 
 const Stack = createStackNavigator();
@@ -20,6 +22,7 @@ function UserHomeStack() {
     <Stack.Navigator>
       <Stack.Screen name='UserHomeafterLogin' component={UserHomeafterLogin} />
       <Stack.Screen name='UserHome_1' component={UserHome_1} />
+      <Stack.Screen name = "VehicleInfoPage" component={VehicleInfoPage}/>
     </Stack.Navigator>
   )
 }
@@ -35,10 +38,14 @@ export default function UserHomes({navigation}: Props) {
 
 export function UserHomeafterLogin ({ navigation }: Props) {
 
-  const arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
+
+  const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
   const BackAction = (): React.ReactElement => (
-    <Button onPress={() => navigation.navigate('Login')} appearance='ghost'>{arrowCharacter} Log out</Button>
-  );
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'> Log out</Ionicons>
+  ); //Use the icon variable
+
+
+
   ///////////////////////////////////////////////////////////////////////////// from react native networking
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<IItem[]>([]);
@@ -59,6 +66,7 @@ export function UserHomeafterLogin ({ navigation }: Props) {
     getItems();
   }, []);
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
 
 
   const navigateItem = (item: IItem) => {
@@ -67,7 +75,7 @@ export function UserHomeafterLogin ({ navigation }: Props) {
 
   return (
     <Layout style={styles.container}>
-      <TopNavigation style={styles.barBg} title={props => <Text {...props}>Welcome User</Text>} alignment='center' />
+      <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Welcome User</Text>} alignment='center' />
       <View style={{ flex: 1 }}>
         {isLoading ? <ActivityIndicator size= 'large' style={styles.spinner}  color="#83AF9F"/> : (
           <List style={styles.list} 
@@ -149,4 +157,8 @@ const styles = StyleSheet.create({
 
 
 
+
+function navigateBack(event: GestureResponderEvent): void {
+  throw new Error('Function not implemented.');
+}
 

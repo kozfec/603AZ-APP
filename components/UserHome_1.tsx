@@ -3,7 +3,7 @@ import * as eva from '@eva-design/eva';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -11,8 +11,28 @@ import VehicleInfoPage from './VehicleInfoPage';
 import { IItem } from '../interfaces/IItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function UserHome_1({ navigation, route }: Props) {
+  /////////////////////////// Proba Navigate ///////////////////////////////////////////////////////////////////////////
+  const navigateVehicleInfoPage = () => {
+    navigation.navigate('VehicleInfoPage')
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////////////////////////////////// Proba Navigate ////////////////////////////////////////////////////////////////////////////////
 
     const id= route.params.paramKey;
     const [isLoading, setLoading] = useState(true);
@@ -46,12 +66,57 @@ export default function UserHome_1({ navigation, route }: Props) {
       getItem();
     }, []);
 
+
+    const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
+    const BackAction = (): React.ReactElement => (
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHomeafterLogin')}  appearance='ghost'/>
+    );
+
+
+//In the header container text the code checks if the properties are defined and truthy and then it displays it
+//If not then it returns an empty string in between the '' (can be an error message)
+//Just to use the {data.carMake}{data.carModel} does not work because the carModel is not defined it has the question mar
+//which means that it nem muszaj meghatarozni.
+
+
     return(
-        <Layout style={styles.container}>
+        <Layout style={styles.container}>          
+        <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Manage Your Car</Text>} alignment='center' />
+        <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
+          <View style={styles.headerContainer} >
+            <Text category='h1'>{data.carMake ? data.carMake : ''} {data.carModel ? data.carModel : ''}</Text>
+            <Text style={styles.headerLabel} category='s1'>
+              {data.carReg}
+            </Text>
+          </View>
+          <View>
+           <Text>A picture coming here</Text> 
+          
             <Text style={styles.itemDescription} category='s1' status='control'>{data.carReg}</Text>
             <Text style={styles.itemDescription} category='s1' status='control'>{data.carMake}</Text>
             <Text style={styles.itemDescription} category='s1' status='control'>{data.carModel}</Text>
             <Text style={styles.itemDescription} category='s1' status='control'>{data.carInformation.driveTrain}</Text>
+            <Text style={styles.itemDescription} category='s1' status='control'>{data.carInformation.engineSize}</Text>
+          </View>
+
+
+          <TouchableOpacity>
+            <Card style={styles.cardStyle} onPress={navigateVehicleInfoPage}>
+              <Text  category='h4' status='control'>Vehicle Specification</Text>
+              <Button>Car Service Management</Button>
+            </Card>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Card style={styles.cardStyle}>
+              <Text  category='h4' status='control'>Engine Oil Management</Text>
+            </Card>
+          </TouchableOpacity>
+            
+            <Button size='giant' style={styles.btnButton}>Engine Oil Management</Button>
+        </KeyboardAwareScrollView>
+        </SafeAreaView>   
         </Layout>
 
     )
@@ -59,26 +124,45 @@ export default function UserHome_1({ navigation, route }: Props) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "black",
+      backgroundColor: "#12171C",
     },
     barBg: {
-      backgroundColor: "black"
+      backgroundColor: "#181E28"
+    },
+    headerContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      //minHeight: 216,
+      backgroundColor:'#12171C',
+    },
+    btnButton: {
+      marginVertical: 12,
+      marginHorizontal: 16,
+      backgroundColor: '#1C3832',
+      //backgroundColor: '#195253'
+    },
+    headerLabel: {
+    marginTop: 16,
     },
     spinner: {
-      alignSelf: 'center',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      padding: 10,
+      flex: 1,
     },
     cardStyle: {
-      height: 220,
+      height: 130,
       marginBottom: 4,
-      backgroundColor: 'red'
-    },
-    cardBackground: {
-      flex: 1,
-      backgroundColor: 'red',
+      margin: 14,
+      backgroundColor: '#1C3832',
+      justifyContent:"center",
+      alignItems:"center",
     },
     itemTitle: {
       zIndex: 1,
       color: 'white',
+      alignContent: 'center'
+      
     },
     itemDescription: {
       zIndex: 1,
@@ -87,5 +171,8 @@ const styles = StyleSheet.create({
     },
     list: {
       backgroundColor: 'black'
+    },
+    textStyle: {
+      backgroundColor:'#83AF9F'
     }
 });

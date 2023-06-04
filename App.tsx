@@ -38,7 +38,6 @@ function AuthStack(){ //Dan nevezte el az authStackot authStacknak
       <Stack.Screen name = "Register" component={Register}/>
       <Stack.Screen name = "Forgot" component={Forgot}/>
       <Stack.Screen name ="Home" component={Home} options={{gestureEnabled: false}}/>
-      <Stack.Screen name = "VehicleInfoPage" component={VehicleInfoPage}/>
     </Stack.Navigator>
   );
 

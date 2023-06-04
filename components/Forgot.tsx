@@ -5,7 +5,7 @@ import { ApplicationProvider, Button, Layout, Text, Icon, IconElement, TopNaviga
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React, { useEffect, useState } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
+import { Ionicons } from '@expo/vector-icons';
 
 
 
@@ -18,10 +18,9 @@ export default function Forgot({ navigation }: Props) {
 
 
 
-    let arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
+    const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
     const BackAction = (): React.ReactElement => (
-
-        <Button onPress={() => navigation.navigate('Login')} appearance='ghost' status= 'warning'>{arrowCharacter}Back</Button>
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'/>
     );
 
     return (
