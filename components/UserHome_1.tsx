@@ -46,7 +46,8 @@ export default function UserHome_1({ navigation, route }: Props) {
           engineSize: "",
           driveTrain: ""
         },
-    });
+    }
+    );
 
    
   
@@ -62,13 +63,15 @@ export default function UserHome_1({ navigation, route }: Props) {
         setLoading(false);
       }
     };
+    
+    
   
     useEffect(() => {
       getItem();
     }, []);
 
     const navigateVehicleInfoPage = () => {
-      navigation.navigate('VehicleInfoPage', { remainingData: data.carInformation });
+      navigation.navigate('VehicleInfoPage', { remainingData: data });
     };//This will navigate to the VehicleInfoPage and pass the remainingData from the carInformation
     // So it doesnt hit the APi again in the VehicleInfoPage
 
