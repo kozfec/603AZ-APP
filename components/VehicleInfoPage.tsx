@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
       margin: 10,
       backgroundColor: '#1C3832',
       justifyContent:"center",
-      borderTopLeftRadius: 20,
-      borderTopRightRadius: 20,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
+      borderTopLeftRadius: 25,
+      borderTopRightRadius: 25,
+      borderBottomLeftRadius: 25,
+      borderBottomRightRadius: 25,
     },
 });

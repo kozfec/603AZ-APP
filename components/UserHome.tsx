@@ -41,7 +41,7 @@ export function UserHomeafterLogin ({ navigation }: Props) {
 
   const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
   const BackAction = (): React.ReactElement => (
-    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'> Log out</Ionicons>
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'/> 
   ); //Use the icon variable
 
 
@@ -74,15 +74,22 @@ export function UserHomeafterLogin ({ navigation }: Props) {
   }
 
   return (
+   
     <Layout style={styles.container}>
-      <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Welcome User</Text>} alignment='center' />
+      <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Please select vehicle!</Text>} alignment='center' />
+       <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
+
+       
+
         {isLoading ? <ActivityIndicator size= 'large' style={styles.spinner}  color="#83AF9F"/> : (
           <List style={styles.list} 
           data={data} 
          // keyExtractor={({ carReg, carMake }, index) => carReg} 
           renderItem={({ item }) => (
+            
             <TouchableOpacity>
+              
 
               <Card style={styles.cardStyle}
                 onPress={() => navigateItem(item) }
@@ -108,7 +115,9 @@ export function UserHomeafterLogin ({ navigation }: Props) {
           )}
           />
         )}
+        
       </View>
+      </SafeAreaView>
     </Layout>
   );
 }
@@ -172,7 +181,14 @@ const styles = StyleSheet.create({
   },
   list: {
     backgroundColor: '#12171C'
-  }
+  },
+  headerContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    //minHeight: 216,
+    backgroundColor:'#12171C',
+    marginBottom: 20,
+  },
 });
 
 
