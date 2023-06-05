@@ -12,12 +12,12 @@ export default function Account({ navigation }: Props){
   const backIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
 
   const BackAction = (): React.ReactElement => (
-    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHome')}  appearance='ghost'> Log out</Ionicons>
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHome')}  appearance='ghost'/>
   );
 
   const Header = (props: ViewProps): React.ReactElement => (
-    <View {...props}>
-      <Text  category='h6'>
+    <View {...props} style={styles.textProba}>
+      <Text category='h6'>
         User details
       </Text>
     </View>
@@ -106,5 +106,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     //backgroundColor: '#1C3832'
     backgroundColor: '#B71314'
+  },
+  textProba: {
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 10,    
   },
 });

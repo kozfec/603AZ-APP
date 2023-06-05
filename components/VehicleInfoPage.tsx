@@ -50,7 +50,7 @@ export default function VehicleInfoPage({ navigation, route }: Props){
 
 
     const Header = (props: ViewProps): React.ReactElement => (
-      <View {...props}>
+      <View {...props} style={styles.textProba}>
         <Text  category='h6'>
           Vehicle Specification
         </Text>
@@ -105,7 +105,6 @@ export default function VehicleInfoPage({ navigation, route }: Props){
 
 const styles = StyleSheet.create({
   cardHeading: {
-
     position: 'absolute',
     top: 60,
     left: 25
@@ -156,5 +155,10 @@ const styles = StyleSheet.create({
       borderTopRightRadius: 25,
       borderBottomLeftRadius: 25,
       borderBottomRightRadius: 25,
+    },
+    textProba: {
+      alignItems: 'center',
+      marginBottom: 10,
+      marginTop: 10,    
     },
 });
