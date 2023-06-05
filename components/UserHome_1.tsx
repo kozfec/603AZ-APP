@@ -15,24 +15,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 export default function UserHome_1({ navigation, route }: Props) {
-  /////////////////////////// Proba Navigate ///////////////////////////////////////////////////////////////////////////
-  
-  /*const navigateVehicleInfoPage1 = (item: IItem) => {
-    navigation.navigate('UserHome_1', {paramKey: item.carReg})
-  };
-*/
-
-
-
-
-
-
-
-
-
-
-  ////////////////////////////////// Proba Navigate ////////////////////////////////////////////////////////////////////////////////
-
+ 
     const id= route.params.paramKey;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<IItem>({
@@ -47,9 +30,7 @@ export default function UserHome_1({ navigation, route }: Props) {
           driveTrain: ""
         },
     }
-    );
-
-   
+    );   
   
     const getItem = async () => {
       try {
@@ -62,9 +43,7 @@ export default function UserHome_1({ navigation, route }: Props) {
       } finally {
         setLoading(false);
       }
-    };
-    
-    
+    };    
   
     useEffect(() => {
       getItem();
@@ -122,7 +101,6 @@ export default function UserHome_1({ navigation, route }: Props) {
             </Card>
           </TouchableOpacity>
             
-            <Button size='giant' style={styles.btnButton}>Engine Oil Management</Button>
         </KeyboardAwareScrollView>
         </SafeAreaView>   
         </Layout>
@@ -165,6 +143,10 @@ const styles = StyleSheet.create({
       backgroundColor: '#1C3832',
       justifyContent:"center",
       alignItems:"center",
+      borderTopLeftRadius: 20,
+      borderTopRightRadius: 20,
+      borderBottomLeftRadius: 20,
+      borderBottomRightRadius: 20,
     },
     itemTitle: {
       zIndex: 1,

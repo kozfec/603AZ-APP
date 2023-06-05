@@ -129,7 +129,11 @@ const styles = StyleSheet.create({
   cardStyle: {
     height: 220,
     marginBottom: 4,
-    backgroundColor: '#1C3832'
+    backgroundColor: '#1C3832',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
   },
   cardBackground: {
     flex: 1,
