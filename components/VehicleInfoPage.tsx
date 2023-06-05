@@ -51,7 +51,7 @@ export default function VehicleInfoPage({ navigation, route }: Props){
 
     const Header = (props: ViewProps): React.ReactElement => (
       <View {...props}>
-        <Text category='h6'>
+        <Text  category='h6'>
           Vehicle Specification
         </Text>
       </View>
@@ -69,26 +69,31 @@ export default function VehicleInfoPage({ navigation, route }: Props){
             </Text>
         </View>
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
-              <Card style={styles.cardStyle} header={Header}>
-
-                <View style={styles.cardText}>
+            <Card style={styles.cardStyle} header={Header}>
+                
               <Text >Make: {remainingData.carMake}</Text>              
               <Divider style={styles.lineStyle}/>
-              </View>
+              
               <Text>Model: {remainingData.carModel}</Text>
               <Divider style={styles.lineStyle}/>
+
               <Text>Year: {remainingData.carYear}</Text>
-              <Divider style={styles.lineStyle}/>              
+              <Divider style={styles.lineStyle}/>
+
               <Text>Dry Weight: {remainingData.carInformation.dryWeight}</Text>
-              <Divider style={styles.lineStyle}/>       
+              <Divider style={styles.lineStyle}/>   
+
               <Text>Fuel Type: {remainingData.carInformation.fuelType}</Text>
               <Divider style={styles.lineStyle}/>
+
               <Text>Engine Power: {remainingData.carInformation.enginePower}</Text>
               <Divider style={styles.lineStyle}/>
+
               <Text >Engine Size: {remainingData.carInformation.engineSize}</Text>
               <Divider style={styles.lineStyle}/>
+
               <Text>Drive Train: {remainingData.carInformation.driveTrain}</Text>
-              </Card>
+            </Card>
         </KeyboardAwareScrollView>
        </SafeAreaView>      
       </Layout>
@@ -99,9 +104,11 @@ export default function VehicleInfoPage({ navigation, route }: Props){
 
 
 const styles = StyleSheet.create({
-  cardText: {
+  cardHeading: {
 
-
+    position: 'absolute',
+    top: 60,
+    left: 25
   },
     container: {
         flex: 1,

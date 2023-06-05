@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
 import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
-import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { ApplicationProvider, Avatar, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -83,14 +83,26 @@ export function UserHomeafterLogin ({ navigation }: Props) {
          // keyExtractor={({ carReg, carMake }, index) => carReg} 
           renderItem={({ item }) => (
             <TouchableOpacity>
+
               <Card style={styles.cardStyle}
-                onPress={() => navigateItem(item)}>
-                <View >
-                  <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
-                  <Text style={styles.itemDescription} category='s1' status='control'>
-                    {item.carMake}
-                  </Text>
-                </View>
+                onPress={() => navigateItem(item) }
+              >
+                
+                
+                  
+                  
+                    
+                    <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
+                     <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} /> 
+                    <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>
+                    
+                    
+                      
+                 
+                 
+
+                
+
               </Card>
           </TouchableOpacity>
           )}
@@ -112,6 +124,12 @@ export function UserHomeafterLogin ({ navigation }: Props) {
 
 
 const styles = StyleSheet.create({
+  avatar: {
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    top: 45,
+    left: 325
+  },
   container: {
     flex: 1,
     backgroundColor: "#12171C",
@@ -127,26 +145,30 @@ const styles = StyleSheet.create({
     
   },
   cardStyle: {
-    height: 120,
+    height: 150,
     marginBottom: 20,
     backgroundColor: '#1C3832',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    flex: 1,
   },
   cardBackground: {
     flex: 1,
     backgroundColor: '#1C3832',
   },
   itemTitle: {
-    zIndex: 1,
+    zIndex: 4,
     color: 'white'
   },
   itemDescription: {
     zIndex: 1,
     marginVertical: 16,
-    color: 'white'
+    color: 'white',
+    position: 'absolute',
+    top: 60,
+    left: 25
   },
   list: {
     backgroundColor: '#12171C'
