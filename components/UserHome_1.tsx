@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
-import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
-import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
+import { KeyboardAvoidingView, StyleSheet, View, Image } from 'react-native';
+import { ApplicationProvider, Avatar, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
@@ -12,6 +12,7 @@ import { IItem } from '../interfaces/IItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
+import { ImageBackground } from 'react-native';
 
 
 export default function UserHome_1({ navigation, route }: Props) {
@@ -78,16 +79,19 @@ export default function UserHome_1({ navigation, route }: Props) {
               {data.carReg}
             </Text>
           </View>
-          <View>
-           <Text>A picture coming here</Text> 
+
+          <View style={styles.avatarContainer} >
+
+
+
+          <Image source={require('../assets/carVector2.jpg')}
+       style={{width: 350, height: 200}} />
+            
           
-            <Text style={styles.itemDescription} category='s1' status='control'>{data.carReg}</Text>
-            <Text style={styles.itemDescription} category='s1' status='control'>{data.carMake}</Text>
-            <Text style={styles.itemDescription} category='s1' status='control'>{data.carModel}</Text>
-            <Text style={styles.itemDescription} category='s1' status='control'>{data.carInformation.driveTrain}</Text>
-            <Text style={styles.itemDescription} category='s1' status='control'>{data.carInformation.engineSize}</Text>
           </View>
 
+          <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
+       style={{width: 250, height: 100}} />
 
           <TouchableOpacity>
             <Card style={styles.cardStyle} onPress={navigateVehicleInfoPage} >
@@ -108,6 +112,20 @@ export default function UserHome_1({ navigation, route }: Props) {
     )
 }
 const styles = StyleSheet.create({
+  avatarContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 20,
+    flex: 0.3
+  },
+
+  avatar: {
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'stretch'
+    
+    
+  },
     container: {
       flex: 1,
       backgroundColor: "#12171C",

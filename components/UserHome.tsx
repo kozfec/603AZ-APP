@@ -127,8 +127,8 @@ const styles = StyleSheet.create({
     
   },
   cardStyle: {
-    height: 220,
-    marginBottom: 4,
+    height: 120,
+    marginBottom: 20,
     backgroundColor: '#1C3832',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,

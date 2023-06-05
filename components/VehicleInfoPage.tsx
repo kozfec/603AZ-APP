@@ -23,36 +23,29 @@ const { Navigator, Screen } = createBottomTabNavigator();
 export default function VehicleInfoPage({ navigation, route }: Props){
 
   const route1 = useRoute();
-  const [data, setData] = useState<IItem>({
-    carReg: "",
-    carMake: "",
-    carModel: "",
-    carInformation: {
-      dryWeight: "",
-      fuelType: "",
-      enginePower: "",
-      engineSize: "",
-      driveTrain: ""
-    },
-}
-); 
+
   const remainingData = route.params?.remainingData;
 
 
 
   if (!remainingData) {
     return (
-      <View>
+      <Layout style={styles.container}>
+      <View style={styles.headerContainer} >
         <Text>Sorry, your vehicles information currently unavailable </Text>
       </View>
+      </Layout>
     );
+  } 
+
+
+  const navigateItem = (item: IItem) => {
+    navigation.navigate('UserHome_1', {paramKey: item.carReg})
   }
 
- 
-
-  const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
+  const backIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
     const BackAction = (): React.ReactElement => (
-    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHomeafterLogin')}  appearance='ghost'/>
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F"  onPress={() => navigateItem(remainingData.carReg)} appearance='ghost'/>
     );
 
 
