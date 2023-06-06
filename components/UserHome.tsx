@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
-import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View, Image } from 'react-native';
 import { ApplicationProvider, Avatar, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React, { useEffect, useState } from 'react';
@@ -64,6 +64,8 @@ export function UserHomeafterLogin ({ navigation }: Props) {
     }
   };
 
+  const [visible, setVisible] = React.useState(false); //For the modal visibility
+
   useEffect(() => {
     getItems();
   }, []);
@@ -80,46 +82,48 @@ export function UserHomeafterLogin ({ navigation }: Props) {
     <Layout style={styles.container}>
       <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Please select vehicle!</Text>} alignment='center' />
        <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-
-       
+        <View style={{ flex: 1 }}>    
 
         {isLoading ? <ActivityIndicator size= 'large' style={styles.spinner}  color="#83AF9F"/> : (
           <List style={styles.list} 
           data={data} 
          // keyExtractor={({ carReg, carMake }, index) => carReg} 
           renderItem={({ item }) => (
-            
             <TouchableOpacity>
-              
+              <Card style={styles.cardStyle} onPress={() => navigateItem(item) }>
 
-              <Card style={styles.cardStyle}
-                onPress={() => navigateItem(item) }
-              >
+                <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
+                <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} /> 
+                <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>
                 
-                
-                  
-                  
-                    
-                    <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
-                     <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} /> 
-                    <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>
-                    
-                    
-                      
-                 
-                 
-
-                
-
               </Card>
-          </TouchableOpacity>
+              
+            </TouchableOpacity>
           )}
           />
-        )}
-        
+          
+        )} 
+         
+        <TouchableOpacity
+          activeOpacity={0.5}
+          //onPress={clickHandler}
+          style={styles.touchableOpacityStyle}
+          //onPress={() => setVisible(true)}
+        >
+          <Image
+            //We are making FAB using TouchableOpacity with an image
+            source={require('../assets/fabBtn.png')}
+            style={styles.floatingButtonStyle}            
+          />
+        </TouchableOpacity> 
+           
       </View>
+
+     
+      
+      
       </SafeAreaView>
+       
     </Layout>
   );
 }
@@ -190,6 +194,21 @@ const styles = StyleSheet.create({
     //minHeight: 216,
     backgroundColor:'#12171C',
     marginBottom: 20,
+  },
+  touchableOpacityStyle: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 30,
+  },
+  floatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 65,
+    height: 65,
+    //backgroundColor:'black'
   },
 });
 

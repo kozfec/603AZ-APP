@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image } from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, } from 'react-native';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal } from '@ui-kitten/components';
+import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal, Input } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import Account from './Account';
 import Garage from './Garage';
@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { IItem } from '../interfaces/IItem';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FontAwesome } from '@expo/vector-icons'; 
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -59,6 +60,14 @@ export default function OilManagement({ navigation, route }: Props){
       </View>
     ); //For the card heading
 
+    const Header2 = (props: ViewProps): React.ReactElement => (
+        <View {...props} style={styles.textProba}>
+          <Text  category='h6'>
+            Add new oil change
+          </Text>
+        </View>
+      ); 
+
 
     const CalendarIcon = (): IconElement => (
         <FontAwesome name="calendar-plus-o" size={24} color="black" />
@@ -66,7 +75,13 @@ export default function OilManagement({ navigation, route }: Props){
 
       const [date, setDate] = React.useState(new Date()); //For the calendar
 
-      const [visible, setVisible] = React.useState(false); //For the modal
+      const [visible, setVisible] = React.useState(false); //For the modal visibility
+
+      const [odoInputValue, setOdoInputValue] = React.useState(''); //For the modal input for Odometer reading
+
+      const [oilInputValue, setOilInputValue] = React.useState(''); //For the modal input for oil change
+
+      const [oilFilterInputValue, setOilFilterInputValue] = React.useState('');
 
 
 
@@ -74,7 +89,7 @@ export default function OilManagement({ navigation, route }: Props){
 
 
     return(
-
+        
 
         <Layout style={styles.container}>            
         <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Oil Management</Text>} alignment='center' />
@@ -85,41 +100,71 @@ export default function OilManagement({ navigation, route }: Props){
               {remainingData.carReg}
             </Text>
         </View>
-        <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>    
+
+        
+      
+                <Modal
+                    visible={visible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => setVisible(false)}
+                >
+                   
+                    <Card style={styles.cardStyle2} disabled={true}  header={Header2}>
+                    
+                        <Text style={styles.textInCard}>Date of change:</Text>
+                        <Datepicker
+                                //label='Date of change'
+                                //placeholder='Pick Date'
+                                size='small'
+                                date={date}
+                                onSelect={nextDate => setDate(nextDate)}
+                                accessoryRight={CalendarIcon}
+                            />
+                        <Divider style={styles.lineStyle} />
+
+                       
+                            <Text style={styles.textInCard} >Odometer at change:</Text>
+                            <Input
+                                placeholder='Odometer at change'
+                                value={odoInputValue}
+                                onChangeText={nextOdoValue => setOdoInputValue(nextOdoValue)}
+                            />
+                        <Divider style={styles.lineStyle} />
+
+                            <Text style={styles.textInCard} >Oil Used:</Text>
+                            <Input
+                                placeholder='Oil Used'
+                                value={oilInputValue}
+                                onChangeText={nextOilValue => setOilInputValue(nextOilValue)}
+                            />
+                        <Divider style={styles.lineStyle} />
+
+                            <Text style={styles.textInCard} >Oil Filter /If changed/: </Text>
+                            <Input
+                                placeholder='Oil Filter'
+                                value={oilFilterInputValue}
+                                onChangeText={nextOilFilterValue => setOilFilterInputValue(nextOilFilterValue)}
+                            />
+                        <Divider style={styles.lineStyle} />
+                        
+                        <View style={styles.popUpCardView}>
+                            <Button style={styles.addBtn}>Add</Button>
+                            <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>                            
+                        </View>
+                                              
+                    </Card>
+                  
+                </Modal>
+                
+
+                
 
 
-                    <Modal
-                        visible={visible}
-                        backdropStyle={styles.backdrop}
-                        onBackdropPress={() => setVisible(false)}
-                    >
-                        <Card disabled={true}>
-                            <Text>
-                                Welcome to UI Kitten 😻
-                            </Text>
-                            <Button onPress={() => setVisible(false)}>
-                                DISMISS
-                            </Button>
-                        </Card>
-                    </Modal>
-
-
-
-
-
-
-            
+                
+        <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
             <Card style={styles.cardStyle} header={Header}>
                 
-              <Text >Due Date: 01/01/2024</Text> 
-              <Datepicker
-                label='Label'
-                caption='Caption'
-                placeholder='Pick Date'
-                date={date}
-                onSelect={nextDate => setDate(nextDate)}
-                accessoryRight={CalendarIcon}
-                />             
+              <Text >Due Date: 01/01/2024</Text>           
               <Divider style={styles.lineStyle}/>
               
               <Text>Due Miles: 115000 m</Text>
@@ -167,10 +212,7 @@ export default function OilManagement({ navigation, route }: Props){
           onPress={() => setVisible(true)}>
           <Image
             //We are making FAB using TouchableOpacity with an image
-            //We are using online image here
             source={require('../assets/fabBtn.png')}
-            //You can use you project image Example below
-            //source={require('./images/float-add-icon.png')}
             style={styles.floatingButtonStyle}
             
           />
@@ -183,6 +225,11 @@ export default function OilManagement({ navigation, route }: Props){
 }
 
 const styles = StyleSheet.create({
+    inner: {
+        padding: 5,
+        flex: 1,
+        //justifyContent: 'space-around',
+    },
     cardHeading: {
       position: 'absolute',
       top: 60,
@@ -258,4 +305,31 @@ const styles = StyleSheet.create({
       backdrop: {
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
       },
+      popUpCardView: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        width: 300,
+      },
+      textInCard:{
+        marginBottom: 10
+      },
+      cardStyle2: {
+        width:350,
+        backgroundColor: '#1C3832',
+        justifyContent:"center",
+        borderTopLeftRadius: 25,
+        borderTopRightRadius: 25,
+        borderBottomLeftRadius: 25,
+        borderBottomRightRadius: 25,
+      },
+      addBtn: {
+        marginEnd:25,
+        width: 150,
+        backgroundColor: '#7A823C',
+      },
+      cancelBtn:{
+        width: 150,
+        backgroundColor: '#B71314',
+      },
+
   });

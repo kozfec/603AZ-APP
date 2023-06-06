@@ -26,8 +26,6 @@ export default function VehicleInfoPage({ navigation, route }: Props){
 
   const remainingData = route.params?.remainingData;
 
-
-
   if (!remainingData) {
     return (
       <Layout style={styles.container}>

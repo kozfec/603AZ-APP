@@ -17,7 +17,6 @@ const BottomTabBar = ({ navigation, state }: Props) => (
       style={styles.tabBg}
       selectedIndex={state.index}
       onSelect={index => navigation.navigate(state.routeNames[index])}>
-      <BottomNavigationTab title='MY GARAGE'/>
       <BottomNavigationTab title='HOME'/>      
       <BottomNavigationTab title='ACCOUNT'/>
     </BottomNavigation>
@@ -25,7 +24,6 @@ const BottomTabBar = ({ navigation, state }: Props) => (
   
   const TabNavigator = () => (
     <Navigator initialRouteName='UserHome' tabBar={props => <BottomTabBar {...props} />}>
-      <Screen name='My garage' component={Garage}/>
       <Screen name='UserHome' component={UserHome}/>
       <Screen name='Account' component={Account}/>
     </Navigator>
