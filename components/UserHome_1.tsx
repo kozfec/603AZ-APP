@@ -13,6 +13,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { ImageBackground } from 'react-native';
+import OilManagement from './OilManagement';
 
 
 export default function UserHome_1({ navigation, route }: Props) {
@@ -52,6 +53,11 @@ export default function UserHome_1({ navigation, route }: Props) {
 
     const navigateVehicleInfoPage = () => {
       navigation.navigate('VehicleInfoPage', { remainingData: data });
+    };//This will navigate to the VehicleInfoPage and pass the remainingData from the carInformation
+    // So it doesnt hit the APi again in the VehicleInfoPage
+
+    const navigateOilManagement= () => {
+      navigation.navigate('OilManagement', { remainingData: data });
     };//This will navigate to the VehicleInfoPage and pass the remainingData from the carInformation
     // So it doesnt hit the APi again in the VehicleInfoPage
 
@@ -100,7 +106,7 @@ export default function UserHome_1({ navigation, route }: Props) {
           </TouchableOpacity>
 
           <TouchableOpacity>
-            <Card style={styles.cardStyle}>
+            <Card style={styles.cardStyle} onPress={navigateOilManagement}>
               <Text  category='h4' status='control'>Engine Oil Management</Text>
             </Card>
           </TouchableOpacity>

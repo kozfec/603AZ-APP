@@ -13,6 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import UserHome_1 from "./UserHome_1";
 import { Ionicons } from '@expo/vector-icons'; 
 import VehicleInfoPage from './VehicleInfoPage';
+import OilManagement from './OilManagement';
 
 
 const Stack = createStackNavigator();
@@ -23,6 +24,7 @@ function UserHomeStack() {
       <Stack.Screen name='UserHomeafterLogin' component={UserHomeafterLogin} />
       <Stack.Screen name='UserHome_1' component={UserHome_1} />
       <Stack.Screen name = "VehicleInfoPage" component={VehicleInfoPage}/>
+      <Stack.Screen name = "OilManagement" component={OilManagement}/>
     </Stack.Navigator>
   )
 }
