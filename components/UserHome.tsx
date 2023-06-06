@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
-import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View, Image } from 'react-native';
-import { ApplicationProvider, Avatar, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View, Image, ViewProps } from 'react-native';
+import { ApplicationProvider, Avatar, Button, Card, Divider, Input, Layout, List, Modal, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
@@ -14,6 +14,8 @@ import UserHome_1 from "./UserHome_1";
 import { Ionicons } from '@expo/vector-icons'; 
 import VehicleInfoPage from './VehicleInfoPage';
 import OilManagement from './OilManagement';
+import { AntDesign } from '@expo/vector-icons';
+
 
 
 const Stack = createStackNavigator();
@@ -46,16 +48,38 @@ export function UserHomeafterLogin ({ navigation }: Props) {
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'/> 
   ); //Use the icon variable
 
+const [visible, setVisible] = React.useState(false);
 
+const addAction = (): React.ReactElement => (
+  <AntDesign name="pluscircleo" size={25} color="#83AF9F" onPress={() => setVisible(true)}/>
+)
+
+const Header2 = (props: ViewProps): React.ReactElement => (
+  <View {...props} style={styles.textProba}>
+    <Text  category='h6'>
+      Please enter a valid UK reg number
+    </Text>
+  </View>
+); 
 
   ///////////////////////////////////////////////////////////////////////////// from react native networking
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<IItem[]>([]);
 
+
   const getItems = async () => {
+    const user = await Auth.currentSession();
+    const accessToken =  user.getAccessToken().getJwtToken();
+    const idToken = user.getIdToken().getJwtToken();
     try {
-      const response = await fetch('https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items');
+      const response = await fetch('https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items', {
+        headers:{
+          "Authorization":idToken,
+          "accesstoken":accessToken
+        }
+      });
       const json = await response.json();
+      console.log(json);
       setData(json);
     } catch (error) {
       console.error(error);
@@ -64,7 +88,7 @@ export function UserHomeafterLogin ({ navigation }: Props) {
     }
   };
 
-  const [visible, setVisible] = React.useState(false); //For the modal visibility
+  //const [visible, setVisible] = React.useState(false); //For the modal visibility
 
   useEffect(() => {
     getItems();
@@ -80,42 +104,50 @@ export function UserHomeafterLogin ({ navigation }: Props) {
   return (
    
     <Layout style={styles.container}>
-      <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Please select vehicle!</Text>} alignment='center' />
+
+      <TopNavigation style={styles.barBg} accessoryLeft={BackAction} accessoryRight={addAction} title={props => <Text {...props}>Please select vehicle!</Text>} alignment='center' />
+      
        <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>    
+       
+        <View style={{ flex: 1 }}>   
+         
 
         {isLoading ? <ActivityIndicator size= 'large' style={styles.spinner}  color="#83AF9F"/> : (
           <List style={styles.list} 
           data={data} 
          // keyExtractor={({ carReg, carMake }, index) => carReg} 
           renderItem={({ item }) => (
+            
             <TouchableOpacity>
               <Card style={styles.cardStyle} onPress={() => navigateItem(item) }>
-
                 <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
                 <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} /> 
-                <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>
-                
+                <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>                
               </Card>
-              
-            </TouchableOpacity>
+            </TouchableOpacity>            
           )}
           />
           
+          
         )} 
+        
+        
+                  <Modal
+                    visible={visible}
+                    backdropStyle={styles.backdrop}
+                    onBackdropPress={() => setVisible(false)}
+                  >
+                    <Card style={styles.cardStyle2} disabled={true}  header={Header2}>
+                      <Input></Input>
+                      <Divider style={styles.lineStyle} />
+                      <View style={styles.popUpCardView}>
+                        <Button style={styles.addBtn}>Add</Button>
+                        <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>                            
+                      </View>
+                    </Card>
+                  </Modal>
          
-        <TouchableOpacity
-          activeOpacity={0.5}
-          //onPress={clickHandler}
-          style={styles.touchableOpacityStyle}
-          //onPress={() => setVisible(true)}
-        >
-          <Image
-            //We are making FAB using TouchableOpacity with an image
-            source={require('../assets/fabBtn.png')}
-            style={styles.floatingButtonStyle}            
-          />
-        </TouchableOpacity> 
+         
            
       </View>
 
@@ -209,6 +241,44 @@ const styles = StyleSheet.create({
     width: 65,
     height: 65,
     //backgroundColor:'black'
+  },
+  addBtn: {
+    marginEnd:25,
+    width: 150,
+    backgroundColor: '#7A823C',
+  },
+  cancelBtn:{
+    width: 150,
+    backgroundColor: '#B71314',
+  },
+  backdrop: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  cardStyle2: {
+    width:350,
+    backgroundColor: '#1C3832',
+    justifyContent:"center",
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
+  },
+  popUpCardView: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: 300,
+  },
+  textInCard:{
+    marginBottom: 10
+  },
+  lineStyle:{
+    horizontalInset: true,
+    margin:10,
+  },
+  textProba: {
+    alignItems: 'center',
+    marginBottom: 10,
+    marginTop: 10,    
   },
 });
 
