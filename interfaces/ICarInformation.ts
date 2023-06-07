@@ -4,4 +4,5 @@ export interface ICarInformation {
     driveTrain: string,
     enginePower: string,
     engineSize: string,
+    carColor: string,
 }

@@ -29,7 +29,8 @@ export default function UserHome_1({ navigation, route }: Props) {
           fuelType: "",
           enginePower: "",
           engineSize: "",
-          driveTrain: ""
+          driveTrain: "",
+          carColor: "",
         },
     }
     );   

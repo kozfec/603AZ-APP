@@ -15,6 +15,7 @@ import { IItem } from '../interfaces/IItem';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FontAwesome } from '@expo/vector-icons'; 
 import { ScrollView } from 'react-native-gesture-handler';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -205,18 +206,8 @@ export default function OilManagement({ navigation, route }: Props){
             </Card>            
         </KeyboardAwareScrollView>
 
-        <TouchableOpacity
-          activeOpacity={0.5}
-          //onPress={clickHandler}
-          style={styles.touchableOpacityStyle}
-          onPress={() => setVisible(true)}>
-          <Image
-            //We are making FAB using TouchableOpacity with an image
-            source={require('../assets/fabBtn.png')}
-            style={styles.floatingButtonStyle}
-            
-          />
-        </TouchableOpacity>
+       
+        <Button size='giant' onPress={() => setVisible(true)} style={styles.touchableOpacityStyle} accessibilityLabel="Add new vehicle"><AntDesign name="plus" size={45} color="white" /></Button>
 
        </SafeAreaView>      
       </Layout>
@@ -287,7 +278,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         marginTop: 10,    
       },
-      touchableOpacityStyle: {
+     /* touchableOpacityStyle: {
         position: 'absolute',
         width: 50,
         height: 50,
@@ -295,7 +286,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         right: 30,
         bottom: 30,
-      },
+      },*/
       floatingButtonStyle: {
         resizeMode: 'contain',
         width: 65,
@@ -330,6 +321,20 @@ const styles = StyleSheet.create({
       cancelBtn:{
         width: 150,
         backgroundColor: '#B71314',
+      },
+      touchableOpacityStyle: {
+        position: 'absolute',
+        width: 70,
+        height: 70,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 50,
+        backgroundColor: '#7A823C',
       },
 
   });
