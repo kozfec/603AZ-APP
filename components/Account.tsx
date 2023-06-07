@@ -93,19 +93,31 @@ const styles = StyleSheet.create({
     marginVertical: 12,
     marginHorizontal: 16,
     backgroundColor: '#7A823C',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   signUpButton: {
     marginVertical: 12,
     marginHorizontal: 16,
     backgroundColor: '#1C3832',
     marginBottom: 90,
-    //backgroundColor: '#195253'
+    //backgroundColor: '#195253',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   deleteButton: {
     marginVertical: 12,
     marginHorizontal: 16,
     //backgroundColor: '#1C3832'
-    backgroundColor: '#B71314'
+    backgroundColor: '#B71314',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   textProba: {
     alignItems: 'center',

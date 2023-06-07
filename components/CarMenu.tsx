@@ -25,7 +25,8 @@ export default function CarMenu({ navigation, route }: Props) {
           fuelType: "",
           enginePower: "",
           engineSize: "",
-          driveTrain: ""
+          driveTrain: "",
+          carColor: ''
         },
     });
   

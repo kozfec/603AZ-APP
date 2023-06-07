@@ -32,6 +32,7 @@ export default function UserHome_1({ navigation, route }: Props) {
           driveTrain: "",
           carColor: "",
         },
+        carYear: ""
     }
     );   
   

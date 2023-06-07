@@ -51,12 +51,12 @@ export default function UserHomes({ navigation }: Props) {
 export function UserHomeafterLogin({ navigation }: Props) {
 
 
-  
+
   const BackAction = (): React.ReactElement => (
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')} appearance='ghost' />
   ); //Use the icon variable
 
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = React.useState(false); //For the modal visibility
 
   const [visible2, setVisible2] = React.useState(false);
 
@@ -70,7 +70,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
     </View>
   );
 
-  ///////////////////////////////////////////////////////////////////////////// from react native networking
+
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState<IItem[]>([]);
 
@@ -96,8 +96,6 @@ export function UserHomeafterLogin({ navigation }: Props) {
     }
   };
 
-  //const [visible, setVisible] = React.useState(false); //For the modal visibility
-
   useEffect(() => {
     getItems();
   }, []);
@@ -106,13 +104,15 @@ export function UserHomeafterLogin({ navigation }: Props) {
   const navigateAddCar = () => {
     navigation.navigate('AddCarProba')
   };
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 
   const navigateItem = (item: IItem) => {
     navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
+
+
+
+
+
 
   return (
 
@@ -144,10 +144,10 @@ export function UserHomeafterLogin({ navigation }: Props) {
 
           )}
 
-          
+
 
           <Button size='giant' onPress={navigateAddCar} style={styles.touchableOpacityStyle} accessibilityLabel="Add new vehicle"><AntDesign name="plus" size={45} color="white" /></Button>
-          
+
 
 
           <Modal
@@ -156,7 +156,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
             onBackdropPress={() => setVisible(false)}
           >
             <Card style={styles.cardStyle2} disabled={true} header={Header2}>
-              <Input autoCapitalize='characters' textAlign= 'center' ></Input>
+              <Input autoCapitalize='characters' textAlign='center' ></Input>
               <Divider style={styles.lineStyle} />
               <View style={styles.popUpCardView}>
                 <Button style={styles.addBtn} onPress={() => setVisible2(true)}>Add</Button>

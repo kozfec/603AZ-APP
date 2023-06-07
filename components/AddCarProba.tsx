@@ -21,43 +21,136 @@ import { IItem } from '../interfaces/IItem';
 export function AddCarProba({ navigation, route }: Props) {
 
   const [registration, setRegistration] = useState('');
-  const id= registration;
+  
+  const id = registration;
 
   const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState<IItem>({
-        carReg: "",
-        carMake: "",
-        carModel: "",
-        carInformation: {
-          dryWeight: "",
-          fuelType: "",
-          enginePower: "",
-          engineSize: "",
-          driveTrain: "",
-          carColor: "",
-        },
-    }
-    );
 
-  async function getCar() {
+  const [data, setData] = useState<IItem>({
+    carReg: "",
+    carMake: "",
+    carModel: "",
+    carInformation: {
+      dryWeight: "",
+      fuelType: "",
+      enginePower: "",
+      engineSize: "",
+      driveTrain: "",
+      carColor: "",
+    },
+    carYear: "",
+  }
+  );
+
+  const [error, setError] = useState<string | null>(null);
+
+  const getCar = async () => {
     try {
       const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`);
-        const json = await response.json();
-        json.carInformation = JSON.parse(json.carInformation);
-        console.log(json);
-        setData(json);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
+      if (!response.ok) {
+        throw new Error('Failed to fetch car data');
       }
-    };
+      const json = await response.json();
+      json.carInformation = JSON.parse(json.carInformation);
+      console.log(json);
+      setData(json);
+      setError(null);
+    } catch (error) {
+      console.error(error);
+      setError('We are having trouble getting your car details, please check if you entered a valid UK reg number, otherwise please contact customer support')
+
+    } finally {
+      setLoading(false);
+    }
+  };
+////////////////////////////////////////////////////////////// ADD CAR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 
-    useEffect(() => {
-      getCar();
-    }, []);
+
+
+const addCarToDatabase = async () => {
+    const user = await Auth.currentSession();
+    const accessToken = user.getAccessToken().getJwtToken();
+    const idToken = user.getIdToken().getJwtToken();
+  try {
+    const response = await fetch('https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items', {
+      method: 'PUT',
+      body: JSON.stringify({
+        partitionKey: accessToken, 
+        sortKey: registration,
+        carMake: data.carMake,
+        carModel: data.carModel,
+        carYear: data.carYear, 
+        carInformation: {
+          dryWeight: data.carInformation.dryWeight,
+          fuelType: data.carInformation.fuelType,
+          enginePower: data.carInformation.enginePower,
+          engineSize: data.carInformation.engineSize,
+          driveTrain: data.carInformation.driveTrain,
+          carColor: data.carInformation.carColor,
+        },
+      }),
+      headers: {
+          "Authorization": idToken,
+          "accesstoken": accessToken
+      },
+    });
+    if (response.ok) {
+      console.log('Car added successfully');
+    } else {
+      console.error('Failed to add car:', response.status);
+    }
+    navigation.goBack();
+  } catch (error) {
+    console.error('Failed to add car:', error);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////// ADD CAR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+ /* useEffect(() => {
+    getCar();
+  }, []); */
+
+  const [visible, setVisible] = React.useState(false);
+
+  const Header2 = (props: ViewProps): React.ReactElement => (
+    <View {...props} style={styles.textProba}>
+      <Text category='h6'>
+        Is this the correct car?
+      </Text>
+    </View>
+  );
+
+  const addCarClick = () => {
+    getCar();
+    setVisible(true);
+  };
 
 
 
@@ -79,20 +172,60 @@ export function AddCarProba({ navigation, route }: Props) {
 
           <Card style={styles.cardStyle} >
             <Input
-             autoCapitalize='characters' 
-             textAlign='center' 
-             placeholder='e.g. XX99ZZZ'
-             value={registration}
-             onChangeText={(text) => setRegistration(text)}
-             >
-            </Input>
-            
+              autoCapitalize='characters'
+              textAlign='center'
+              placeholder='e.g. XX99ZZZ'
+              value={registration}
+              onChangeText={(text) => setRegistration(text.toUpperCase())}
+            //onSubmitEditing={(value) => setRegistration(value.nativeEvent.text)}
+            /*onKeyPress={({ nativeEvent }) => {
+             if (nativeEvent.key === 'Enter') {
+               addCarClick();
+             }
+           }}*/
+
+            />
+
+
             <Divider style={styles.lineStyle} />
             <View style={styles.popUpCardView}>
-              <Button style={styles.addBtn} onPress={getCar}>Add</Button>
-              <Button style={styles.cancelBtn}>Cancel</Button>
+              <Button style={styles.addBtn} onPress={addCarClick}>Add</Button>
+              <Button style={styles.cancelBtn} onPress={() => navigation.navigate('UserHomeafterLogin')}>Cancel</Button>
             </View>
           </Card>
+
+
+
+
+
+
+          <Modal
+            visible={visible}
+            backdropStyle={styles.backdrop}
+            onBackdropPress={() => setVisible(false)}
+          >
+
+            <Card style={styles.cardStyle2} disabled={true} header={Header2}>
+              {error ? (
+                <Text category='h6' >{error}</Text>
+              ) : (
+                <>
+
+                  <Text category='h1' style={styles.textProba}>{data.carMake} {data.carModel}</Text>
+                  <Text category='h3' style={styles.textProba}>{data.carInformation.carColor}</Text>
+                  <Text category='h6' style={styles.textProba}>{data.carReg}</Text>
+                  <Divider style={styles.lineStyle} />
+                  <View style={styles.popUpCardView}>
+                    <Button style={styles.addBtn} onPress={addCarToDatabase}>Add car</Button>
+                    <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>No</Button>
+                  </View>
+                </>
+              )}
+
+            </Card>
+
+          </Modal>
+
 
         </KeyboardAwareScrollView>
       </SafeAreaView>
@@ -193,10 +326,19 @@ const styles = StyleSheet.create({
     marginEnd: 25,
     width: 150,
     backgroundColor: '#7A823C',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
+
   },
   cancelBtn: {
     width: 150,
     backgroundColor: '#B71314',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
   },
   backdrop: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

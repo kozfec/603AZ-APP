@@ -317,10 +317,18 @@ const styles = StyleSheet.create({
         marginEnd:25,
         width: 150,
         backgroundColor: '#7A823C',
+        borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
       },
       cancelBtn:{
         width: 150,
         backgroundColor: '#B71314',
+        borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    borderBottomRightRadius: 15,
       },
       touchableOpacityStyle: {
         position: 'absolute',
