@@ -7,5 +7,5 @@ export interface IItem {
     carModel: string,
     carInformation: ICarInformation,
     carYear: string,
-
+    oilChange?: IOil[],
 };

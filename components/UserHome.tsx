@@ -54,6 +54,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
   const [isLoading, setLoading] = useState(true);
 
   const [data, setData] = useState<IItem[]>([]);
+  const [car, setCar] = useState<IItem>();
 
 
   const getItems = async () => {
@@ -86,8 +87,8 @@ export function UserHomeafterLogin({ navigation }: Props) {
     navigation.navigate('AddCarProba')
   };
 
-  const navigateItem = (item: IItem) => {
-    navigation.navigate('UserHome_1', { paramKey: item.carReg })
+  const navigateItem = async (item: IItem) => {
+      navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
 
   return (
@@ -110,9 +111,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
                 <TouchableOpacity>
                   <Card style={styles.cardStyle} onPress={() => navigateItem(item)}>
                     <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
-                    <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} />
-                    <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>
-                    
+                    <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} />                    
                   </Card>
                 </TouchableOpacity>
               )}
