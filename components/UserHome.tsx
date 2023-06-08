@@ -43,11 +43,6 @@ export default function UserHomes({ navigation }: Props) {
 //const auth.signOut <---call function for sign out
 
 
-
-
-
-
-
 export function UserHomeafterLogin({ navigation }: Props) {
 
 
@@ -56,22 +51,8 @@ export function UserHomeafterLogin({ navigation }: Props) {
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')} appearance='ghost' />
   ); //Use the icon variable
 
-  const [visible, setVisible] = React.useState(false); //For the modal visibility
-
-  const [visible2, setVisible2] = React.useState(false);
-
-
-
-  const Header2 = (props: ViewProps): React.ReactElement => (
-    <View {...props} style={styles.textProba}>
-      <Text category='h6'>
-        Please enter a valid UK reg number
-      </Text>
-    </View>
-  );
-
-
   const [isLoading, setLoading] = useState(true);
+
   const [data, setData] = useState<IItem[]>([]);
 
 
@@ -109,11 +90,6 @@ export function UserHomeafterLogin({ navigation }: Props) {
     navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
 
-
-
-
-
-
   return (
 
     <Layout style={styles.container}>
@@ -136,6 +112,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
                     <Text style={styles.itemTitle} category='h2' status='control'>{item.carReg}</Text>
                     <Avatar size='giant' style={styles.avatar} source={require('../assets/carVector2.jpg')} />
                     <Text style={styles.itemDescription} category='s1' status='control'>{item.carMake}</Text>
+                    
                   </Card>
                 </TouchableOpacity>
               )}
@@ -148,44 +125,8 @@ export function UserHomeafterLogin({ navigation }: Props) {
 
           <Button size='giant' onPress={navigateAddCar} style={styles.touchableOpacityStyle} accessibilityLabel="Add new vehicle"><AntDesign name="plus" size={45} color="white" /></Button>
 
-
-
-          <Modal
-            visible={visible}
-            backdropStyle={styles.backdrop}
-            onBackdropPress={() => setVisible(false)}
-          >
-            <Card style={styles.cardStyle2} disabled={true} header={Header2}>
-              <Input autoCapitalize='characters' textAlign='center' ></Input>
-              <Divider style={styles.lineStyle} />
-              <View style={styles.popUpCardView}>
-                <Button style={styles.addBtn} onPress={() => setVisible2(true)}>Add</Button>
-                <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>
-              </View>
-            </Card>
-          </Modal>
-
-          <Modal visible={visible2} backdropStyle={styles.backdrop}
-            onBackdropPress={() => setVisible2(false)}>
-            <Card disabled={true}>
-              <Text>
-                Welcome to UI Kitten 😻
-              </Text>
-              <Button onPress={() => setVisible2(false)}>
-                DISMISS
-              </Button>
-            </Card>
-          </Modal>
-
-
-
         </View>
-
-
-
-
       </SafeAreaView>
-
     </Layout>
   );
 }

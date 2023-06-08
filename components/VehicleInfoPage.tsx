@@ -15,14 +15,13 @@ import { IItem } from '../interfaces/IItem';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 
-const { Navigator, Screen } = createBottomTabNavigator();
 
 
 
 
 export default function VehicleInfoPage({ navigation, route }: Props){
 
-  const route1 = useRoute();
+  //const route1 = useRoute();
 
   const remainingData = route.params?.remainingData;
 
@@ -41,14 +40,13 @@ export default function VehicleInfoPage({ navigation, route }: Props){
     navigation.navigate('UserHome_1', {paramKey: item.carReg})
   }
 
-  const backIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
     const BackAction = (): React.ReactElement => (
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F"  onPress={() => navigateItem(remainingData.carReg)} appearance='ghost'/>
     );
+//The two above need some explanation from dan
 
-
-    const Header = (props: ViewProps): React.ReactElement => (
-      <View {...props} style={styles.textProba}>
+    const Header = (): React.ReactElement => (
+      <View style={styles.textProba}>
         <Text  category='h6'>
           Vehicle Specification
         </Text>

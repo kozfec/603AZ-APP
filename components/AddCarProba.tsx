@@ -16,131 +16,71 @@ import VehicleInfoPage from './VehicleInfoPage';
 import OilManagement from './OilManagement';
 import { AntDesign } from '@expo/vector-icons';
 import { IItem } from '../interfaces/IItem';
+import { ICarInformation } from '../interfaces/ICarInformation';
 
 
 export function AddCarProba({ navigation, route }: Props) {
 
-  const [registration, setRegistration] = useState('');
-  
-  const id = registration;
-
   const [isLoading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const [request, setRequest] = useState({
+    carReg: "",
+    oilChange: "[]"
+  }
+  );
 
   const [data, setData] = useState<IItem>({
-    carReg: "",
     carMake: "",
+    carReg: "",
     carModel: "",
     carInformation: {
       dryWeight: "",
       fuelType: "",
+      driveTrain: "",
       enginePower: "",
       engineSize: "",
-      driveTrain: "",
       carColor: "",
     },
-    carYear: "",
-  }
-  );
+    carYear: ""
+  });
 
-  const [error, setError] = useState<string | null>(null);
-
-  const getCar = async () => {
-    try {
-      const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch car data');
-      }
-      const json = await response.json();
-      json.carInformation = JSON.parse(json.carInformation);
-      console.log(json);
-      setData(json);
-      setError(null);
-    } catch (error) {
-      console.error(error);
-      setError('We are having trouble getting your car details, please check if you entered a valid UK reg number, otherwise please contact customer support')
-
-    } finally {
-      setLoading(false);
-    }
-  };
-////////////////////////////////////////////////////////////// ADD CAR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-const addCarToDatabase = async () => {
+  const addCarToDatabase = async () => {
+    setLoading(true);
     const user = await Auth.currentSession();
     const accessToken = user.getAccessToken().getJwtToken();
     const idToken = user.getIdToken().getJwtToken();
-  try {
-    const response = await fetch('https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items', {
-      method: 'PUT',
-      body: JSON.stringify({
-        partitionKey: accessToken, 
-        sortKey: registration,
-        carMake: data.carMake,
-        carModel: data.carModel,
-        carYear: data.carYear, 
-        carInformation: {
-          dryWeight: data.carInformation.dryWeight,
-          fuelType: data.carInformation.fuelType,
-          enginePower: data.carInformation.enginePower,
-          engineSize: data.carInformation.engineSize,
-          driveTrain: data.carInformation.driveTrain,
-          carColor: data.carInformation.carColor,
-        },
-      }),
-      headers: {
+    const req = JSON.stringify(request);
+    console.log(req);
+    try {
+      const response = await fetch("https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items", {
+        headers: {
           "Authorization": idToken,
-          "accesstoken": accessToken
-      },
-    });
-    if (response.ok) {
-      console.log('Car added successfully');
-    } else {
-      console.error('Failed to add car:', response.status);
+          "accesstoken": accessToken,
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: req,
+      });
+      const json = await response.json();
+      console.log(json);
+      setData(json);
+    } catch (error) {
+      console.error('Failed to add car:', error);
     }
-    navigation.goBack();
-  } catch (error) {
-    console.error('Failed to add car:', error);
-  }
-};
+  };
+
+  ////////////////////////////////////////////////////////////// ADD CAR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+  useEffect(() => {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-////////////////////////////////////////////////////////////// ADD CAR ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
- /* useEffect(() => {
-    getCar();
-  }, []); */
+  }, []);
 
   const [visible, setVisible] = React.useState(false);
 
-  const Header2 = (props: ViewProps): React.ReactElement => (
-    <View {...props} style={styles.textProba}>
+  const Header2 = (): React.ReactElement => (
+    <View style={styles.textProba}>
       <Text category='h6'>
         Is this the correct car?
       </Text>
@@ -148,7 +88,7 @@ const addCarToDatabase = async () => {
   );
 
   const addCarClick = () => {
-    getCar();
+    addCarToDatabase();
     setVisible(true);
   };
 
@@ -175,8 +115,8 @@ const addCarToDatabase = async () => {
               autoCapitalize='characters'
               textAlign='center'
               placeholder='e.g. XX99ZZZ'
-              value={registration}
-              onChangeText={(text) => setRegistration(text.toUpperCase())}
+              value={request.carReg}
+              onChangeText={(text) => setRequest({ ...request, carReg: text.toUpperCase() })}
             //onSubmitEditing={(value) => setRegistration(value.nativeEvent.text)}
             /*onKeyPress={({ nativeEvent }) => {
              if (nativeEvent.key === 'Enter') {
@@ -211,13 +151,12 @@ const addCarToDatabase = async () => {
               ) : (
                 <>
 
-                  <Text category='h1' style={styles.textProba}>{data.carMake} {data.carModel}</Text>
-                  <Text category='h3' style={styles.textProba}>{data.carInformation.carColor}</Text>
-                  <Text category='h6' style={styles.textProba}>{data.carReg}</Text>
+                  <Text category='h1' style={styles.textProba}>{data!.carMake} {data!.carModel}</Text>
+                  <Text category='h3' style={styles.textProba}>{data!.carInformation.carColor}</Text>
+                  <Text category='h6' style={styles.textProba}>{data!.carReg}</Text>
                   <Divider style={styles.lineStyle} />
                   <View style={styles.popUpCardView}>
-                    <Button style={styles.addBtn} onPress={addCarToDatabase}>Add car</Button>
-                    <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>No</Button>
+                    <Button style={styles.addBtn} onPress={() => { navigateBack }}>Return to Garage</Button>
                   </View>
                 </>
               )}

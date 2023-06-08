@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+/*import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
 import { KeyboardAvoidingView, StyleSheet, View } from 'react-native';
 import { ApplicationProvider, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
@@ -26,8 +26,9 @@ export default function CarMenu({ navigation, route }: Props) {
           enginePower: "",
           engineSize: "",
           driveTrain: "",
-          carColor: ''
+          carColor: '',
         },
+        carYear: '',
     });
   
     const getItem = async () => {
@@ -90,3 +91,4 @@ const styles = StyleSheet.create({
       backgroundColor: 'black'
     }
 });
+*/

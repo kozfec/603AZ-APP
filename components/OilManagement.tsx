@@ -28,9 +28,15 @@ export default function OilManagement({ navigation, route }: Props){
 
   const route1 = useRoute();
 
+
+
+  const [registration, setRegistration] = useState('');
+  
+  
+
+  const [isLoading, setLoading] = useState(true);
+
   const remainingData = route.params?.remainingData;
-
-
 
   if (!remainingData) {
     return (
@@ -43,6 +49,29 @@ export default function OilManagement({ navigation, route }: Props){
   } 
 
 
+
+
+  /*const id = remainingData.carReg;
+
+const getOil = async () => {
+  try {
+    const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`);
+    const json = await response.json();
+    json.carInformation = JSON.parse(json.carInformation);
+    setData(json);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
+};   */
+
+
+
+
+
+  
+
   const navigateItem = (item: IItem) => {
     navigation.navigate('UserHome_1', {paramKey: item.carReg})
   }
@@ -53,16 +82,16 @@ export default function OilManagement({ navigation, route }: Props){
     ); //For the nav bar icon
 
 
-    const Header = (props: ViewProps): React.ReactElement => (
-      <View {...props} style={styles.textProba}>
+    const Header = (): React.ReactElement => (
+      <View style={styles.textProba}>
         <Text  category='h6'>
           Oil Change History
         </Text>
       </View>
     ); //For the card heading
 
-    const Header2 = (props: ViewProps): React.ReactElement => (
-        <View {...props} style={styles.textProba}>
+    const Header2 = (): React.ReactElement => (
+        <View  style={styles.textProba}>
           <Text  category='h6'>
             Add new oil change
           </Text>
@@ -165,7 +194,7 @@ export default function OilManagement({ navigation, route }: Props){
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
             <Card style={styles.cardStyle} header={Header}>
                 
-              <Text >Due Date: 01/01/2024</Text>           
+              <Text >Date Changed: {remainingData.oilChange.dateChanged}</Text>           
               <Divider style={styles.lineStyle}/>
               
               <Text>Due Miles: 115000 m</Text>

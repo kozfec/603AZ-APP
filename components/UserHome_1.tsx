@@ -19,11 +19,14 @@ import OilManagement from './OilManagement';
 export default function UserHome_1({ navigation, route }: Props) {
  
     const id= route.params.paramKey;
+
     const [isLoading, setLoading] = useState(true);
+    
     const [data, setData] = useState<IItem>({
         carReg: "",
         carMake: "",
         carModel: "",
+        carYear: "",
         carInformation: {
           dryWeight: "",
           fuelType: "",
@@ -31,8 +34,7 @@ export default function UserHome_1({ navigation, route }: Props) {
           engineSize: "",
           driveTrain: "",
           carColor: "",
-        },
-        carYear: ""
+        }
     }
     );   
   
