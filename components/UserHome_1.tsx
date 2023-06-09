@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
-import { KeyboardAvoidingView, StyleSheet, View, Image } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, View, Image, ActivityIndicator } from 'react-native';
 import { ApplicationProvider, Avatar, Button, Card, Input, Layout, List, Spinner, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React, { useEffect, useState } from 'react';
@@ -82,7 +82,9 @@ export default function UserHome_1({ navigation, route }: Props) {
         <Layout style={styles.container}>          
         <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Manage Your Car</Text>} alignment='center' />
         <SafeAreaView style={{ flex: 1 }}>
+        {isLoading ? <ActivityIndicator size='large' style={styles.spinner} color="#83AF9F" /> : (
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
+        
           <View style={styles.headerContainer} >
             <Text category='h1'>{data.carMake ? data.carMake : ''} {data.carModel ? data.carModel : ''}</Text>
             <Text style={styles.headerLabel} category='s1'>
@@ -114,8 +116,10 @@ export default function UserHome_1({ navigation, route }: Props) {
               <Text  category='h4' status='control'>Engine Oil Management</Text>
             </Card>
           </TouchableOpacity>
+          
             
         </KeyboardAwareScrollView>
+        )}
         </SafeAreaView>   
         </Layout>
 

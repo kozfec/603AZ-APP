@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, } from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, } from 'react-native';
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal, Input } from '@ui-kitten/components';
+import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal, Input, List } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import Account from './Account';
 import Garage from './Garage';
@@ -66,10 +66,11 @@ console.log(oil);
       const accessToken = user.getAccessToken().getJwtToken();
       console.log(accessToken);
       const idToken = user.getIdToken().getJwtToken();
-      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items/${userName}/${id}`, {
+      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, {
         headers: {
           "Authorization": idToken,
           "accesstoken": accessToken,
+          
           
         }
       });
@@ -77,8 +78,6 @@ console.log(oil);
       console.log(json)
       if (typeof json.oilChange === 'string') {
         json.OilChange = JSON.parse(json.oilChange);
-      } else {
-        json.OilChange = [];
       }
       setOil(json.OilChange);
       //console.log(setOil);
@@ -120,7 +119,7 @@ console.log(oil);
     <FontAwesome name="calendar-plus-o" size={24} color="black" />
   );
 
-  const [date, setDate] = React.useState(new Date()); //For the calendar
+  const [date, setDate] = React.useState(''); //For the calendar
 
   const [visible, setVisible] = React.useState(false); //For the modal visibility
 
@@ -136,13 +135,66 @@ console.log(oil);
   }, []);
 
 
+  ////////////////////////////////////////////////////////////      ADD OIL ///////////////////////////////////////////////////////////////
+
+  const [request, setRequest] = useState({
+    dateChanged: "",
+    mileageChanged: "",
+    oilUsed: "",
+    oilFilter: "",
+  }
+  );
+
+  const [data, setData] = useState<IOil>({
+    dateChanged: "",
+    mileageChanged: "",
+    oilUsed: "",
+    oilFilter: "",
+  });
+
+
+
+  const addOilToDatabase = async () => {
+    setLoading(true);
+    const user = await Auth.currentSession();
+    const accessToken = user.getAccessToken().getJwtToken();
+    const idToken = user.getIdToken().getJwtToken();
+    const oilChange = oil;
+    oilChange.push(data);
+    try {
+      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, {
+        headers: {
+          "Authorization": idToken,
+          "accesstoken": accessToken,
+          'Content-Type': 'application/json'
+        },
+        method: "POST",
+        body: JSON.stringify(oilChange),
+      });
+      const json = await response.json();
+      console.log(json)
+    } catch (error) {
+      console.error('Failed to olaj:', error);
+    }
+  };
+
+
+ 
+
+
+  ////////////////////////////////////////////////////////////      ADD OIL ///////////////////////////////////////////////////////////////
+
+
 
   return (
 
 
     <Layout style={styles.container}>
+      
       <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>Oil Management</Text>} alignment='center' />
+      {isLoading ? <ActivityIndicator size='large' style={styles.spinner} color="#83AF9F" /> : (
       <SafeAreaView style={{ flex: 1 }}>
+      
         <View style={styles.headerContainer} >
           <Text category='h1'>{remainingData.carMake ? remainingData.carMake : ''} {remainingData.carModel ? remainingData.carModel : ''}</Text>
           <Text style={styles.headerLabel} category='s1'>
@@ -150,24 +202,19 @@ console.log(oil);
           </Text>
         </View>
 
-
-
         <Modal
           visible={visible}
           backdropStyle={styles.backdrop}
           onBackdropPress={() => setVisible(false)}
         >
-
           <Card style={styles.cardStyle2} disabled={true} header={Header2}>
 
             <Text style={styles.textInCard}>Date of change:</Text>
-            <Datepicker
-              //label='Date of change'
-              //placeholder='Pick Date'
-              size='small'
-              date={date}
-              onSelect={nextDate => setDate(nextDate)}
-              accessoryRight={CalendarIcon}
+            <Input
+              placeholder='Date of change'
+              //value={date}
+              onChangeText={date => setData({ ...request, dateChanged: date})}
+              
             />
             <Divider style={styles.lineStyle} />
 
@@ -175,46 +222,46 @@ console.log(oil);
             <Text style={styles.textInCard} >Odometer at change:</Text>
             <Input
               placeholder='Odometer at change'
-              value={odoInputValue}
-              onChangeText={nextOdoValue => setOdoInputValue(nextOdoValue)}
+             // value={odoInputValue}
+              onChangeText={odoInputValue => setData({ ...data, mileageChanged: odoInputValue})}
             />
             <Divider style={styles.lineStyle} />
 
             <Text style={styles.textInCard} >Oil Used:</Text>
             <Input
               placeholder='Oil Used'
-              value={oilInputValue}
-              onChangeText={nextOilValue => setOilInputValue(nextOilValue)}
+              //value={oilInputValue}
+              onChangeText={oilInputValue => setData({ ...data, oilUsed: oilInputValue})}
+              
             />
             <Divider style={styles.lineStyle} />
 
             <Text style={styles.textInCard} >Oil Filter /If changed/: </Text>
             <Input
               placeholder='Oil Filter'
-              value={oilFilterInputValue}
-              onChangeText={nextOilFilterValue => setOilFilterInputValue(nextOilFilterValue)}
+              //value={oilFilterInputValue}
+              onChangeText={oilFilterInputValue => setData({ ...data, oilFilter: oilFilterInputValue})}
             />
             <Divider style={styles.lineStyle} />
 
+           
+
             <View style={styles.popUpCardView}>
-              <Button style={styles.addBtn}>Add</Button>
+              <Button style={styles.addBtn} onPress={addOilToDatabase}>Add</Button>
               <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>
             </View>
-
           </Card>
-
         </Modal>
 
 
-
-
-
-
-        <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
-        {oil.map((item, index) => (
+        {oil.length == 0 || !oil ? <Card style={styles.cardStyle} header={Header}><Text>No oil information available. Please use + to add a new oil change.</Text></Card>: (
+        <List style={styles.list}
+              data={oil}
+              // keyExtractor={({ carReg, carMake }, index) => carReg} 
+              renderItem={({ item }) => (
           <Card style={styles.cardStyle} header={Header}>
           
-            <Text >Date Changed: </Text>
+            <Text >Date due: </Text>
             <Divider style={styles.lineStyle} />
 
             <Text>Due Miles: </Text>
@@ -232,20 +279,27 @@ console.log(oil);
             <Text>Oil Filter: {item.oilFilter}</Text>
             <Divider style={styles.lineStyle} />
           </Card>
-          ))}
-         
-        </KeyboardAwareScrollView>
+          )} 
+          />
+        )
+        
+        }
+        
 
 
-        <Button size='giant' onPress={() => setVisible(true)} style={styles.touchableOpacityStyle} accessibilityLabel="Add new vehicle"><AntDesign name="plus" size={45} color="white" /></Button>
+        <Button size='giant' onPress={() => setVisible(true)} style={styles.touchableOpacityStyle} accessibilityLabel="Add new oil change"><AntDesign name="plus" size={45} color="white" /></Button>
 
       </SafeAreaView>
+      )}
     </Layout>
 
   );
 }
 
 const styles = StyleSheet.create({
+  list: {
+    backgroundColor: '#12171C',
+  },
   inner: {
     padding: 5,
     flex: 1,
@@ -373,6 +427,13 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 50,
     backgroundColor: '#7A823C',
+  },
+  spinner: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10,
+    flex: 1,
+
   },
 
 });
