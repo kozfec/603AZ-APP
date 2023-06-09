@@ -36,6 +36,10 @@ export default function OilManagement({ navigation, route }: Props) {
 
   const [oil, setOil] = useState<IOil[]>([]);
 
+
+
+console.log(oil);
+
   const [isLoading, setLoading] = useState(true);
 
   const remainingData = route.params?.remainingData;
@@ -77,7 +81,7 @@ export default function OilManagement({ navigation, route }: Props) {
         json.OilChange = [];
       }
       setOil(json.OilChange);
-      console.log(setOil);
+      //console.log(setOil);
     } catch (error) {
       console.log("Hiba can:", error);
     } finally {
@@ -207,47 +211,29 @@ export default function OilManagement({ navigation, route }: Props) {
 
 
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
+        {oil.map((item, index) => (
           <Card style={styles.cardStyle} header={Header}>
-
-            <Text >Date Changed: {remainingData.oilChange}</Text>
+          
+            <Text >Date Changed: </Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Due Miles: 115000 m</Text>
+            <Text>Due Miles: </Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Date Changed: 01/01/2023</Text>
+            <Text>Date Changed: {item.dateChanged}</Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Odometer at change: 109000miles</Text>
+            <Text>Odometer at change: {item.mileageChanged}</Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Oil Used: Fuchs Titan Pro 10W40 5l</Text>
+            <Text>Oil Used: {item.oilUsed}</Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Oil Filter: K&N 308</Text>
+            <Text>Oil Filter: {item.oilFilter}</Text>
             <Divider style={styles.lineStyle} />
           </Card>
-
-          <Card style={styles.cardStyle} header={Header}>
-
-            <Text >Due Date: 01/01/2023</Text>
-            <Divider style={styles.lineStyle} />
-
-            <Text>Due Miles: 109000 m</Text>
-            <Divider style={styles.lineStyle} />
-
-            <Text>Date Changed: 01/01/2022</Text>
-            <Divider style={styles.lineStyle} />
-
-            <Text>Odometer at change: 103000miles</Text>
-            <Divider style={styles.lineStyle} />
-
-            <Text>Oil Used: Castrol Magnatec 10W40 4.5l</Text>
-            <Divider style={styles.lineStyle} />
-
-            <Text>Oil Filter: K&N 308</Text>
-            <Divider style={styles.lineStyle} />
-          </Card>
+          ))}
+         
         </KeyboardAwareScrollView>
 
 
