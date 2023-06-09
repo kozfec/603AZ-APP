@@ -28,7 +28,7 @@ const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function OilManagement({ navigation, route }: Props) {
 
-  const route1 = useRoute();
+  //const route1 = useRoute();
 
   
 
@@ -39,6 +39,7 @@ export default function OilManagement({ navigation, route }: Props) {
   const [isLoading, setLoading] = useState(true);
 
   const remainingData = route.params?.remainingData;
+ 
 
   if (!remainingData) {
     return (
@@ -51,25 +52,34 @@ export default function OilManagement({ navigation, route }: Props) {
   }
 
   const id = remainingData.carReg;
+  //loop through all of the items and get the one with the same 
+  const userName = "kozakf%40cu.coventry.ac.uk";
 
   const getOil = async () => {
     try {
       console.log(id);
       const user = await Auth.currentSession();
       const accessToken = user.getAccessToken().getJwtToken();
+      console.log(accessToken);
       const idToken = user.getIdToken().getJwtToken();
-      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items/${id}`, {
+      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items/${userName}/${id}`, {
         headers: {
           "Authorization": idToken,
-          "accesstoken": accessToken
+          "accesstoken": accessToken,
+          
         }
       });
       const json = await response.json();
       console.log(json)
-      //json.OilChange = JSON.parse(json.oilChange);
-      //setOil(json.OilChange);
+      if (typeof json.oilChange === 'string') {
+        json.OilChange = JSON.parse(json.oilChange);
+      } else {
+        json.OilChange = [];
+      }
+      setOil(json.OilChange);
+      console.log(setOil);
     } catch (error) {
-      console.error(error);
+      console.log("Hiba can:", error);
     } finally {
       setLoading(false);
     }
@@ -199,7 +209,7 @@ export default function OilManagement({ navigation, route }: Props) {
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
           <Card style={styles.cardStyle} header={Header}>
 
-            <Text >Date Changed:</Text>
+            <Text >Date Changed: {remainingData.oilChange}</Text>
             <Divider style={styles.lineStyle} />
 
             <Text>Due Miles: 115000 m</Text>

@@ -8,4 +8,11 @@ export interface IItem {
     carInformation: ICarInformation,
     carYear: string,
     oilChange?: IOil[],
+    /*oilChange: [{
+        dateChanged: string,
+        mileageChanged: string,
+        oilUsed: string,
+        oilFilter: string,
+    }]*/
+    
 };
