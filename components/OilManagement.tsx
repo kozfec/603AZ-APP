@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, } from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, ScrollView} from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal, Input, List } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
@@ -14,10 +14,11 @@ import { Ionicons } from '@expo/vector-icons';
 import { IItem } from '../interfaces/IItem';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { FontAwesome } from '@expo/vector-icons';
-import { ScrollView } from 'react-native-gesture-handler';
 import { AntDesign } from '@expo/vector-icons';
 import { IOil } from '../interfaces/IOil';
 import { Auth } from 'aws-amplify';
+import { MaterialIcons } from '@expo/vector-icons'; 
+
 
 
 
@@ -119,7 +120,9 @@ console.log(oil);
     <FontAwesome name="calendar-plus-o" size={24} color="black" />
   );
 
-  const [date, setDate] = React.useState(''); //For the calendar
+  const [dateString, setDateString] = React.useState(''); //For the calendar
+
+  const [dateCalendar, setDateCalendar] = React.useState(new Date());
 
   const [visible, setVisible] = React.useState(false); //For the modal visibility
 
@@ -173,8 +176,12 @@ console.log(oil);
       });
       const json = await response.json();
       console.log(json)
+      setVisible(false)
     } catch (error) {
       console.error('Failed to olaj:', error);
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -183,6 +190,26 @@ console.log(oil);
 
 
   ////////////////////////////////////////////////////////////      ADD OIL ///////////////////////////////////////////////////////////////
+  const [keyboardSize, setKeyboardSize] = React.useState(0);
+
+  useEffect(() => {
+      Keyboard.addListener("keyboardDidShow", (e) => {
+          setKeyboardSize(e.endCoordinates.height)
+      })
+  
+      Keyboard.addListener("keyboardDidHide", (e) => {
+          setKeyboardSize(e.endCoordinates.height)
+      })
+  
+      return (() => {
+          Keyboard.removeAllListeners("keyboardDidShow");
+          Keyboard.removeAllListeners("keyboardDidHide");
+      })
+  }, [])
+
+
+
+  var mileageToAdd = 6000;
 
 
 
@@ -201,20 +228,38 @@ console.log(oil);
             {remainingData.carReg}
           </Text>
         </View>
+        
 
+
+        
         <Modal
           visible={visible}
           backdropStyle={styles.backdrop}
           onBackdropPress={() => setVisible(false)}
         >
-          <Card style={styles.cardStyle2} disabled={true} header={Header2}>
+          
+          <Card 
+          style={{marginBottom: keyboardSize,
+            backgroundColor: '#1C3832',
+            justifyContent: "center",
+            borderTopLeftRadius: 25,
+            borderTopRightRadius: 25,
+            borderBottomLeftRadius: 25,
+            borderBottomRightRadius: 25,}} 
+            disabled={true} header={Header2}
+          >
 
             <Text style={styles.textInCard}>Date of change:</Text>
-            <Input
-              placeholder='Date of change'
-              //value={date}
-              onChangeText={date => setData({ ...request, dateChanged: date})}
-              
+            <Datepicker
+              date={dateCalendar}
+              accessoryRight={CalendarIcon}
+              onSelect={date => {
+                const formattedDate = date.toLocaleDateString("en-GB");
+                //const formattedDate = date.toLocaleDateString("UTC");
+                setDateCalendar(date);
+                setDateString(formattedDate);
+                setData({ ...request, dateChanged: formattedDate });
+              }}
             />
             <Divider style={styles.lineStyle} />
 
@@ -222,7 +267,7 @@ console.log(oil);
             <Text style={styles.textInCard} >Odometer at change:</Text>
             <Input
               placeholder='Odometer at change'
-             // value={odoInputValue}
+              inputMode='numeric'
               onChangeText={odoInputValue => setData({ ...data, mileageChanged: odoInputValue})}
             />
             <Divider style={styles.lineStyle} />
@@ -230,7 +275,6 @@ console.log(oil);
             <Text style={styles.textInCard} >Oil Used:</Text>
             <Input
               placeholder='Oil Used'
-              //value={oilInputValue}
               onChangeText={oilInputValue => setData({ ...data, oilUsed: oilInputValue})}
               
             />
@@ -239,7 +283,6 @@ console.log(oil);
             <Text style={styles.textInCard} >Oil Filter /If changed/: </Text>
             <Input
               placeholder='Oil Filter'
-              //value={oilFilterInputValue}
               onChangeText={oilFilterInputValue => setData({ ...data, oilFilter: oilFilterInputValue})}
             />
             <Divider style={styles.lineStyle} />
@@ -251,26 +294,32 @@ console.log(oil);
               <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>
             </View>
           </Card>
+          
         </Modal>
+        
+        
 
 
-        {oil.length == 0 || !oil ? <Card style={styles.cardStyle} header={Header}><Text>No oil information available. Please use + to add a new oil change.</Text></Card>: (
+        {oil.length == 0 || !oil ? <Card style={styles.cardStyle} header={Header}>
+          <Text>No oil information available. Please use + to add a new oil change.</Text></Card>: (
         <List style={styles.list}
               data={oil}
               // keyExtractor={({ carReg, carMake }, index) => carReg} 
               renderItem={({ item }) => (
+
+                
           <Card style={styles.cardStyle} header={Header}>
           
-            <Text >Date due: </Text>
+            <Text >Date due: Date</Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Due Miles: </Text>
+            <Text>Due Miles: {parseInt(item.mileageChanged, 10) + mileageToAdd} miles</Text>
             <Divider style={styles.lineStyle} />
 
             <Text>Date Changed: {item.dateChanged}</Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>Odometer at change: {item.mileageChanged}</Text>
+            <Text>Odometer at change: {item.mileageChanged} miles</Text>
             <Divider style={styles.lineStyle} />
 
             <Text>Oil Used: {item.oilUsed}</Text>
@@ -285,10 +334,10 @@ console.log(oil);
         
         }
         
-
+        
 
         <Button size='giant' onPress={() => setVisible(true)} style={styles.touchableOpacityStyle} accessibilityLabel="Add new oil change"><AntDesign name="plus" size={45} color="white" /></Button>
-
+        
       </SafeAreaView>
       )}
     </Layout>
@@ -396,6 +445,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
+    
   },
   addBtn: {
     marginEnd: 25,
