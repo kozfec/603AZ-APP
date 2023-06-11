@@ -21,31 +21,18 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 
 
-
-const { Navigator, Screen } = createBottomTabNavigator();
-
-
-
-
 export default function OilManagement({ navigation, route }: Props) {
 
   //const route1 = useRoute();
-
-  
 
   const [registration, setRegistration] = useState('');
 
   const [oil, setOil] = useState<IOil[]>([]);
 
-
-
-console.log(oil);
-
   const [isLoading, setLoading] = useState(true);
 
   const remainingData = route.params?.remainingData;
  
-
   if (!remainingData) {
     return (
       <Layout style={styles.container}>
@@ -58,21 +45,19 @@ console.log(oil);
 
   const id = remainingData.carReg;
   //loop through all of the items and get the one with the same 
-  const userName = "kozakf%40cu.coventry.ac.uk";
+  //const userName = "kozakf%40cu.coventry.ac.uk";
 
   const getOil = async () => {
     try {
       console.log(id);
       const user = await Auth.currentSession();
       const accessToken = user.getAccessToken().getJwtToken();
-      console.log(accessToken);
+      //console.log(accessToken);
       const idToken = user.getIdToken().getJwtToken();
       const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, {
         headers: {
           "Authorization": idToken,
-          "accesstoken": accessToken,
-          
-          
+          "accesstoken": accessToken,       
         }
       });
       const json = await response.json();
@@ -81,7 +66,6 @@ console.log(oil);
         json.OilChange = JSON.parse(json.oilChange);
       }
       setOil(json.OilChange);
-      //console.log(setOil);
     } catch (error) {
       console.log("Hiba can:", error);
     } finally {
@@ -93,11 +77,9 @@ console.log(oil);
     navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
 
-  const backIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
   const BackAction = (): React.ReactElement => (
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigateItem(remainingData.carReg)} appearance='ghost' />
   ); //For the nav bar icon
-
 
   const Header = (): React.ReactElement => (
     <View style={styles.textProba}>
@@ -114,7 +96,6 @@ console.log(oil);
       </Text>
     </View>
   );
-
 
   const CalendarIcon = (): IconElement => (
     <FontAwesome name="calendar-plus-o" size={24} color="black" />
@@ -155,8 +136,6 @@ console.log(oil);
     oilFilter: "",
   });
 
-
-
   const addOilToDatabase = async () => {
     setLoading(true);
     const user = await Auth.currentSession();
@@ -190,9 +169,9 @@ console.log(oil);
 
 
   ////////////////////////////////////////////////////////////      ADD OIL ///////////////////////////////////////////////////////////////
-  const [keyboardSize, setKeyboardSize] = React.useState(0);
+  const [keyboardSize, setKeyboardSize] = React.useState(0); //For the modal to not be hided behind the keyboard
 
-  useEffect(() => {
+  useEffect(() => { //For the modal to not be hided behind the keyboard
       Keyboard.addListener("keyboardDidShow", (e) => {
           setKeyboardSize(e.endCoordinates.height)
       })
@@ -205,12 +184,13 @@ console.log(oil);
           Keyboard.removeAllListeners("keyboardDidShow");
           Keyboard.removeAllListeners("keyboardDidHide");
       })
-  }, [])
+  }, []) //For the modal to not be hided behind the keyboard
 
 
 
-  var mileageToAdd = 6000;
+  var mileageToAdd = 6000; //mileage to be added to the value at oil change
 
+  const dateUntill = Date.parse(data.dateChanged)
 
 
   return (
@@ -254,8 +234,8 @@ console.log(oil);
               date={dateCalendar}
               accessoryRight={CalendarIcon}
               onSelect={date => {
-                const formattedDate = date.toLocaleDateString("en-GB");
-                //const formattedDate = date.toLocaleDateString("UTC");
+                //const formattedDate = date.toLocaleDateString("en-GB");
+                const formattedDate = date.toLocaleDateString("UTC");
                 setDateCalendar(date);
                 setDateString(formattedDate);
                 setData({ ...request, dateChanged: formattedDate });
@@ -286,15 +266,11 @@ console.log(oil);
               onChangeText={oilFilterInputValue => setData({ ...data, oilFilter: oilFilterInputValue})}
             />
             <Divider style={styles.lineStyle} />
-
-           
-
             <View style={styles.popUpCardView}>
               <Button style={styles.addBtn} onPress={addOilToDatabase}>Add</Button>
               <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>
             </View>
-          </Card>
-          
+          </Card>          
         </Modal>
         
         
@@ -310,7 +286,7 @@ console.log(oil);
                 
           <Card style={styles.cardStyle} header={Header}>
           
-            <Text >Date due: Date</Text>
+            <Text >Date due: Date {dateUntill}</Text>
             <Divider style={styles.lineStyle} />
 
             <Text>Due Miles: {parseInt(item.mileageChanged, 10) + mileageToAdd} miles</Text>

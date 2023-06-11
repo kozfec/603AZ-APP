@@ -19,6 +19,7 @@ import OilManagement from './OilManagement';
 export default function UserHome_1({ navigation, route }: Props) {
  
     const id= route.params.paramKey;
+  
 
     const [isLoading, setLoading] = useState(true);
     
@@ -37,11 +38,27 @@ export default function UserHome_1({ navigation, route }: Props) {
         }
     }
     );   
+
+    //const [data, setData] = useState<IItem[]>([]);
+
+
   
     const getItem = async () => {
+      
       try {
-        const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`);
+        const user = await Auth.currentSession();
+        const accessToken = user.getAccessToken().getJwtToken();
+        const idToken = user.getIdToken().getJwtToken();
+        //const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`,{
+        const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/carinfo/${id}`,{
+          headers: {
+            "Authorization": idToken,
+            "accesstoken": accessToken,
+          }
+          
+        });
         const json = await response.json();
+        console.log(json);
         json.carInformation = JSON.parse(json.carInformation);
         setData(json);
       } catch (error) {
