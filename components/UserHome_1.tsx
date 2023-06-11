@@ -119,8 +119,6 @@ export default function UserHome_1({ navigation, route }: Props) {
           
           </View>
 
-          <Image source={{uri: 'https://reactjs.org/logo-og.png'}}
-       style={{width: 250, height: 100}} />
 
           <TouchableOpacity>
             <Card style={styles.cardStyle} onPress={navigateVehicleInfoPage} >

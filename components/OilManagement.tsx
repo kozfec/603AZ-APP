@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, ScrollView} from 'react-native';
+import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, ScrollView } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal, Input, List } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
@@ -17,7 +17,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { IOil } from '../interfaces/IOil';
 import { Auth } from 'aws-amplify';
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons';
 
 
 
@@ -32,7 +32,7 @@ export default function OilManagement({ navigation, route }: Props) {
   const [isLoading, setLoading] = useState(true);
 
   const remainingData = route.params?.remainingData;
- 
+
   if (!remainingData) {
     return (
       <Layout style={styles.container}>
@@ -57,7 +57,7 @@ export default function OilManagement({ navigation, route }: Props) {
       const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, {
         headers: {
           "Authorization": idToken,
-          "accesstoken": accessToken,       
+          "accesstoken": accessToken,
         }
       });
       const json = await response.json();
@@ -165,25 +165,25 @@ export default function OilManagement({ navigation, route }: Props) {
   };
 
 
- 
+
 
 
   ////////////////////////////////////////////////////////////      ADD OIL ///////////////////////////////////////////////////////////////
   const [keyboardSize, setKeyboardSize] = React.useState(0); //For the modal to not be hided behind the keyboard
 
   useEffect(() => { //For the modal to not be hided behind the keyboard
-      Keyboard.addListener("keyboardDidShow", (e) => {
-          setKeyboardSize(e.endCoordinates.height)
-      })
-  
-      Keyboard.addListener("keyboardDidHide", (e) => {
-          setKeyboardSize(e.endCoordinates.height)
-      })
-  
-      return (() => {
-          Keyboard.removeAllListeners("keyboardDidShow");
-          Keyboard.removeAllListeners("keyboardDidHide");
-      })
+    Keyboard.addListener("keyboardDidShow", (e) => {
+      setKeyboardSize(e.endCoordinates.height)
+    })
+
+    Keyboard.addListener("keyboardDidHide", (e) => {
+      setKeyboardSize(e.endCoordinates.height)
+    })
+
+    return (() => {
+      Keyboard.removeAllListeners("keyboardDidShow");
+      Keyboard.removeAllListeners("keyboardDidHide");
+    })
   }, []) //For the modal to not be hided behind the keyboard
 
 
@@ -197,124 +197,126 @@ export default function OilManagement({ navigation, route }: Props) {
 
 
     <Layout style={styles.container}>
-      
+
       <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>Oil Management</Text>} alignment='center' />
       {isLoading ? <ActivityIndicator size='large' style={styles.spinner} color="#83AF9F" /> : (
-      <SafeAreaView style={{ flex: 1 }}>
-      
-        <View style={styles.headerContainer} >
-          <Text category='h1'>{remainingData.carMake ? remainingData.carMake : ''} {remainingData.carModel ? remainingData.carModel : ''}</Text>
-          <Text style={styles.headerLabel} category='s1'>
-            {remainingData.carReg}
-          </Text>
-        </View>
-        
+        <SafeAreaView style={{ flex: 1 }}>
+
+          <View style={styles.headerContainer} >
+            <Text category='h1'>{remainingData.carMake ? remainingData.carMake : ''} {remainingData.carModel ? remainingData.carModel : ''}</Text>
+            <Text style={styles.headerLabel} category='s1'>
+              {remainingData.carReg}
+            </Text>
+          </View>
 
 
-        
-        <Modal
-          visible={visible}
-          backdropStyle={styles.backdrop}
-          onBackdropPress={() => setVisible(false)}
-        >
-          
-          <Card 
-          style={{marginBottom: keyboardSize,
-            backgroundColor: '#1C3832',
-            justifyContent: "center",
-            borderTopLeftRadius: 25,
-            borderTopRightRadius: 25,
-            borderBottomLeftRadius: 25,
-            borderBottomRightRadius: 25,}} 
-            disabled={true} header={Header2}
+
+
+          <Modal
+            visible={visible}
+            backdropStyle={styles.backdrop}
+            onBackdropPress={() => setVisible(false)}
           >
 
-            <Text style={styles.textInCard}>Date of change:</Text>
-            <Datepicker
-              date={dateCalendar}
-              accessoryRight={CalendarIcon}
-              onSelect={date => {
-                //const formattedDate = date.toLocaleDateString("en-GB");
-                const formattedDate = date.toLocaleDateString("UTC");
-                setDateCalendar(date);
-                setDateString(formattedDate);
-                setData({ ...request, dateChanged: formattedDate });
+            <Card
+              style={{
+                marginBottom: keyboardSize,
+                backgroundColor: '#1C3832',
+                justifyContent: "center",
+                borderTopLeftRadius: 25,
+                borderTopRightRadius: 25,
+                borderBottomLeftRadius: 25,
+                borderBottomRightRadius: 25,
               }}
-            />
-            <Divider style={styles.lineStyle} />
+              disabled={true} header={Header2}
+            >
+
+              <Text style={styles.textInCard}>Date of change:</Text>
+              <Datepicker
+                date={dateCalendar}
+                accessoryRight={CalendarIcon}
+                onSelect={date => {
+                  //const formattedDate = date.toLocaleDateString("en-GB");
+                  const formattedDate = date.toLocaleDateString("UTC");
+                  setDateCalendar(date);
+                  setDateString(formattedDate);
+                  setData({ ...request, dateChanged: formattedDate });
+                }}
+              />
+              <Divider style={styles.lineStyle} />
 
 
-            <Text style={styles.textInCard} >Odometer at change:</Text>
-            <Input
-              placeholder='Odometer at change'
-              inputMode='numeric'
-              onChangeText={odoInputValue => setData({ ...data, mileageChanged: odoInputValue})}
-            />
-            <Divider style={styles.lineStyle} />
+              <Text style={styles.textInCard} >Odometer at change:</Text>
+              <Input
+                placeholder='Odometer at change'
+                inputMode='numeric'
+                onChangeText={odoInputValue => setData({ ...data, mileageChanged: odoInputValue })}
+              />
+              <Divider style={styles.lineStyle} />
 
-            <Text style={styles.textInCard} >Oil Used:</Text>
-            <Input
-              placeholder='Oil Used'
-              onChangeText={oilInputValue => setData({ ...data, oilUsed: oilInputValue})}
-              
-            />
-            <Divider style={styles.lineStyle} />
+              <Text style={styles.textInCard} >Oil Used:</Text>
+              <Input
+                placeholder='Oil Used'
+                onChangeText={oilInputValue => setData({ ...data, oilUsed: oilInputValue })}
 
-            <Text style={styles.textInCard} >Oil Filter /If changed/: </Text>
-            <Input
-              placeholder='Oil Filter'
-              onChangeText={oilFilterInputValue => setData({ ...data, oilFilter: oilFilterInputValue})}
-            />
-            <Divider style={styles.lineStyle} />
-            <View style={styles.popUpCardView}>
-              <Button style={styles.addBtn} onPress={addOilToDatabase}>Add</Button>
-              <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>
-            </View>
-          </Card>          
-        </Modal>
-        
-        
+              />
+              <Divider style={styles.lineStyle} />
+
+              <Text style={styles.textInCard} >Oil Filter /If changed/: </Text>
+              <Input
+                placeholder='Oil Filter'
+                onChangeText={oilFilterInputValue => setData({ ...data, oilFilter: oilFilterInputValue })}
+              />
+              <Divider style={styles.lineStyle} />
+              <View style={styles.popUpCardView}>
+                <Button style={styles.addBtn} onPress={addOilToDatabase}>Add</Button>
+                <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>
+              </View>
+            </Card>
+          </Modal>
 
 
-        {oil.length == 0 || !oil ? <Card style={styles.cardStyle} header={Header}>
-          <Text>No oil information available. Please use + to add a new oil change.</Text></Card>: (
-        <List style={styles.list}
+
+
+          {oil.length == 0 || !oil ? <Card style={styles.cardStyle} header={Header}>
+            <Text>No oil information available. Please use + to add a new oil change.</Text></Card> : (
+            <List style={styles.list}
               data={oil}
               // keyExtractor={({ carReg, carMake }, index) => carReg} 
               renderItem={({ item }) => (
 
-                
-          <Card style={styles.cardStyle} header={Header}>
-          
-            <Text >Date due: Date {dateUntill}</Text>
-            <Divider style={styles.lineStyle} />
 
-            <Text>Due Miles: {parseInt(item.mileageChanged, 10) + mileageToAdd} miles</Text>
-            <Divider style={styles.lineStyle} />
+                <Card style={styles.cardStyle} header={Header}>
 
-            <Text>Date Changed: {item.dateChanged}</Text>
-            <Divider style={styles.lineStyle} />
+                  <Text >Date due: Date {dateUntill}</Text>
+                  <Divider style={styles.lineStyle} />
 
-            <Text>Odometer at change: {item.mileageChanged} miles</Text>
-            <Divider style={styles.lineStyle} />
+                  <Text>Due Miles: {parseInt(item.mileageChanged, 10) + mileageToAdd} miles</Text>
+                  <Divider style={styles.lineStyle} />
 
-            <Text>Oil Used: {item.oilUsed}</Text>
-            <Divider style={styles.lineStyle} />
+                  <Text>Date Changed: {item.dateChanged}</Text>
+                  <Divider style={styles.lineStyle} />
 
-            <Text>Oil Filter: {item.oilFilter}</Text>
-            <Divider style={styles.lineStyle} />
-          </Card>
-          )} 
-          />
-        )
-        
-        }
-        
-        
+                  <Text>Odometer at change: {item.mileageChanged} miles</Text>
+                  <Divider style={styles.lineStyle} />
 
-        <Button size='giant' onPress={() => setVisible(true)} style={styles.touchableOpacityStyle} accessibilityLabel="Add new oil change"><AntDesign name="plus" size={45} color="white" /></Button>
-        
-      </SafeAreaView>
+                  <Text>Oil Used: {item.oilUsed}</Text>
+                  <Divider style={styles.lineStyle} />
+
+                  <Text>Oil Filter: {item.oilFilter}</Text>
+                  <Divider style={styles.lineStyle} />
+                </Card>
+              )}
+            />
+          )
+
+          }
+
+
+
+          <Button size='giant' onPress={() => setVisible(true)} style={styles.touchableOpacityStyle} accessibilityLabel="Add new oil change"><AntDesign name="plus" size={45} color="white" /></Button>
+
+        </SafeAreaView>
       )}
     </Layout>
 
@@ -421,7 +423,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
-    
+
   },
   addBtn: {
     marginEnd: 25,

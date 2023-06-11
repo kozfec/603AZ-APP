@@ -30,7 +30,7 @@ export default function Register({ navigation }: Props) {
     return (
       <View style={styles.captionContainer}>
         <Text style={styles.captionText}>
-          The password must contain at least 8 characters, a special character and an uppercase letter
+          The password must contain at least 8 characters, a number, a special character and an uppercase letter!
         </Text>
       </View>
     );

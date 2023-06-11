@@ -1,4 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
+/*import { StatusBar } from 'expo-status-bar';
 import * as eva from '@eva-design/eva';
 import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View, Image, ViewProps } from 'react-native';
 import { ApplicationProvider, Avatar, Button, Card, Divider, Input, Layout, List, Modal, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
@@ -61,7 +61,7 @@ export function IsThisYourCar ({ navigation, route }: Props) {
       /*const navigateItem = (item: IItem) => {
         navigation.navigate('UserHome_1', {paramKey: item.carReg})
       }*/
-
+/*
       const BackAction = (): React.ReactElement => (
         <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHomeafterLogin')}  appearance='ghost'/>
         );
@@ -240,4 +240,4 @@ const styles = StyleSheet.create({
 });
 function navigateBack(event: GestureResponderEvent): void {
   throw new Error('Function not implemented.');
-}
+}*/

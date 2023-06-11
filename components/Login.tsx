@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Input, Layout, Text, ViewPager } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
@@ -76,7 +76,16 @@ export default function Login({ navigation }: Props){
             <Text style={styles.signInLabel} category='s1'>
               Sign in to your account
             </Text>
+            <View style={styles.avatarContainer} >
+          <Image source={{uri: 'https://dsjd3aruneyx.cloudfront.net/Screenshot%202023-06-01%20105420.jpg'}}
+       style={{width: 350, height: 250}} />
           </View>
+          </View>
+
+
+          
+
+          
 
           <View style={styles.formContainer}>
             <Input //Email Input
@@ -133,6 +142,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#12171C",
+      },
+      avatarContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        margin: 10,
+        //flex: 0.3
       },
       headerContainer: {
         justifyContent: 'center',
