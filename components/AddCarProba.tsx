@@ -81,7 +81,7 @@ export function AddCarProba({ navigation, route }: Props) {
   const Header2 = (): React.ReactElement => (
     <View style={styles.textProba}>
       <Text category='h6'>
-        Is this the correct car?
+        Car has been added
       </Text>
     </View>
   );
@@ -155,7 +155,7 @@ export function AddCarProba({ navigation, route }: Props) {
                   <Text category='h6' style={styles.textProba}>{data!.carReg}</Text>
                   <Divider style={styles.lineStyle} />
                   <View style={styles.popUpCardView}>
-                    <Button style={styles.addBtn} onPress={() => { navigateBack }}>Return to Garage</Button>
+                    <Button style={styles.addBtn} onPress={() => navigation.navigate('UserHomeafterLogin')}>Return to Garage</Button>
                   </View>
                 </>
               )}
