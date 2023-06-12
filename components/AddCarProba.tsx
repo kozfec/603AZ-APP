@@ -1,22 +1,12 @@
-import { StatusBar } from 'expo-status-bar';
-import * as eva from '@eva-design/eva';
-import { ActivityIndicator, GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View, Image, ViewProps } from 'react-native';
-import { ApplicationProvider, Avatar, Button, Card, Divider, Input, Layout, List, Modal, Spinner, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components';
+import { GestureResponderEvent, KeyboardAvoidingView, StyleSheet, View, Image, ViewProps } from 'react-native';
+import { Button, Card, Divider, Input, Layout, List, Modal, Spinner, Text, TopNavigation,  } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React, { useEffect, useState } from 'react';
 import { Auth } from 'aws-amplify';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
-import UserHome_1 from "./UserHome_1";
 import { Ionicons } from '@expo/vector-icons';
-import VehicleInfoPage from './VehicleInfoPage';
-import OilManagement from './OilManagement';
-import { AntDesign } from '@expo/vector-icons';
 import { IItem } from '../interfaces/IItem';
-import { ICarInformation } from '../interfaces/ICarInformation';
 
 
 export function AddCarProba({ navigation, route }: Props) {
@@ -70,10 +60,7 @@ export function AddCarProba({ navigation, route }: Props) {
     }
   };
 
-
-
   useEffect(() => {
-
   }, []);
 
   const [visible, setVisible] = React.useState(false);
@@ -116,13 +103,6 @@ export function AddCarProba({ navigation, route }: Props) {
               placeholder='e.g. XX99ZZZ'
               value={request.carReg}
               onChangeText={(text) => setRequest({ ...request, carReg: text.toUpperCase() })}
-            //onSubmitEditing={(value) => setRegistration(value.nativeEvent.text)}
-            /*onKeyPress={({ nativeEvent }) => {
-             if (nativeEvent.key === 'Enter') {
-               addCarClick();
-             }
-           }}*/
-
             />
 
 
@@ -149,7 +129,6 @@ export function AddCarProba({ navigation, route }: Props) {
                 <Text category='h6' >{error}</Text>
               ) : (
                 <>
-
                   <Text category='h1' style={styles.textProba}>{data!.carMake} {data!.carModel}</Text>
                   <Text category='h3' style={styles.textProba}>{data!.carInformation.carColor}</Text>
                   <Text category='h6' style={styles.textProba}>{data!.carReg}</Text>

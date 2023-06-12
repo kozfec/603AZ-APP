@@ -209,9 +209,6 @@ export default function OilManagement({ navigation, route }: Props) {
             </Text>
           </View>
 
-
-
-
           <Modal
             visible={visible}
             backdropStyle={styles.backdrop}
@@ -275,8 +272,8 @@ export default function OilManagement({ navigation, route }: Props) {
 
 
 
-          {oil.length == 0 || !oil ? <Card style={styles.cardStyle} header={Header}>
-            <Text>No oil information available. Please use + to add a new oil change.</Text></Card> : (
+          {oil.length == 0 || !oil ? 
+            <Text style={styles.noDataText}>No oil information available for this vehicle. Please use + to add a new oil change.</Text> : (
             <List style={styles.list}
               data={oil}
               // keyExtractor={({ carReg, carMake }, index) => carReg} 
@@ -328,6 +325,12 @@ const styles = StyleSheet.create({
     padding: 5,
     flex: 1,
     //justifyContent: 'space-around',
+  },
+  noDataText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18,
+    marginTop: 20
   },
   cardHeading: {
     position: 'absolute',

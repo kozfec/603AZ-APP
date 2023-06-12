@@ -57,6 +57,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
   const [car, setCar] = useState<IItem>();
 
 
+
   const getItems = async () => {
     const user = await Auth.currentSession();
     const accessToken = user.getAccessToken().getJwtToken();
@@ -91,7 +92,6 @@ export function UserHomeafterLogin({ navigation }: Props) {
       navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
 
-
   
 
   return (
@@ -104,12 +104,19 @@ export function UserHomeafterLogin({ navigation }: Props) {
 
         <View style={{ flex: 1 }}>
 
-
-          {isLoading ? <ActivityIndicator size='large' style={styles.spinner} color="#83AF9F" /> : (
+       
+          {isLoading ? (<ActivityIndicator size='large' style={styles.spinner} color="#83AF9F" />) : 
+          data.length === 0 ?  (
+            
+            <Text style={styles.noDataText} >You currently have no cars in your garage. Please add a car using the + button.</Text>
+          ) : (
+             
             <List style={styles.list}
               data={data}
               // keyExtractor={({ carReg, carMake }, index) => carReg} 
-              renderItem={({ item }) => (
+              renderItem={({ item }) => ( 
+
+               
 
                 <TouchableOpacity>
                   <Card style={styles.cardStyle} onPress={() => navigateItem(item)}>
@@ -119,6 +126,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
                 </TouchableOpacity>
               )}
             />
+           
 
 
           )}
@@ -149,6 +157,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 45,
     left: 325
+  },
+  noDataText: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 18,
+    marginTop: 20
   },
   container: {
     flex: 1,

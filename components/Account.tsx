@@ -1,42 +1,36 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, View, ViewProps } from 'react-native';
-import * as eva from '@eva-design/eva';
-import { ApplicationProvider, Button, Card, Divider, Layout, Text, TopNavigation } from '@ui-kitten/components';
+import { SafeAreaView, StyleSheet, View, } from 'react-native';
+import { Button, Card, Divider, Layout, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Auth } from 'aws-amplify';
 
+
 export default function Account({ navigation }: Props){
 
-  const backIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
 
-  const BackAction = (): React.ReactElement => (
+  const BackAction = (): React.ReactElement => ( //Icon button for the navbar
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHome')}  appearance='ghost'/>
   );
 
-  const Header = (): React.ReactElement => (
+  const Header = (): React.ReactElement => ( //Header for the cars
     <View style={styles.textProba}>
       <Text category='h6'>
         User details
       </Text>
     </View>
   );
+ 
 
-
-
-  
-
-async function signOut() {
+async function signOut() {  //Sign out function
   try {
-    await Auth.signOut();
-    navigation.navigate('Login');
+    await Auth.signOut();  //Revoke cognito token so cannot generate new Access and Id Tokens
+    navigation.navigate('Login'); //Navigates back to the Login page
   } catch (error) {
     console.log('error signing out: ', error);
   }
 }
-
 
     return(
         <Layout style={styles.container}>
@@ -63,10 +57,6 @@ async function signOut() {
 
         <Button style={styles.deleteButton}  size='giant'>Delete Account</Button>
 
-
-
-
-
         </KeyboardAwareScrollView>
         </SafeAreaView>
       </Layout>
@@ -85,7 +75,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    //minHeight: 216,
     backgroundColor:'#12171C',
     marginTop: 20,
   },
@@ -116,7 +105,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     backgroundColor: '#1C3832',
     marginBottom: 90,
-    //backgroundColor: '#195253',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
     borderBottomLeftRadius: 15,
@@ -125,7 +113,6 @@ const styles = StyleSheet.create({
   deleteButton: {
     marginVertical: 12,
     marginHorizontal: 16,
-    //backgroundColor: '#1C3832'
     backgroundColor: '#B71314',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
