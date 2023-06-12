@@ -16,13 +16,14 @@ export default function Account({ navigation }: Props){
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHome')}  appearance='ghost'/>
   );
 
-  const Header = (props: ViewProps): React.ReactElement => (
-    <View {...props} style={styles.textProba}>
+  const Header = (): React.ReactElement => (
+    <View style={styles.textProba}>
       <Text category='h6'>
         User details
       </Text>
     </View>
   );
+
 
 
   
