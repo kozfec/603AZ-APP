@@ -76,6 +76,9 @@ export default function VehicleInfoPage({ navigation, route }: Props){
               <Text>Year: {remainingData.carYear}</Text>
               <Divider style={styles.lineStyle}/>
 
+              <Text>Color: {remainingData.carInformation.carColor}</Text>
+              <Divider style={styles.lineStyle}/>
+
               <Text>Dry Weight: {remainingData.carInformation.dryWeight}</Text>
               <Divider style={styles.lineStyle}/>   
 

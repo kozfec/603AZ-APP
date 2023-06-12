@@ -217,7 +217,6 @@ export default function OilManagement({ navigation, route }: Props) {
             backdropStyle={styles.backdrop}
             onBackdropPress={() => setVisible(false)}
           >
-
             <Card
               style={{
                 marginBottom: keyboardSize,
@@ -230,7 +229,6 @@ export default function OilManagement({ navigation, route }: Props) {
               }}
               disabled={true} header={Header2}
             >
-
               <Text style={styles.textInCard}>Date of change:</Text>
               <Datepicker
                 date={dateCalendar}
@@ -245,7 +243,6 @@ export default function OilManagement({ navigation, route }: Props) {
               />
               <Divider style={styles.lineStyle} />
 
-
               <Text style={styles.textInCard} >Odometer at change:</Text>
               <Input
                 placeholder='Odometer at change'
@@ -258,7 +255,6 @@ export default function OilManagement({ navigation, route }: Props) {
               <Input
                 placeholder='Oil Used'
                 onChangeText={oilInputValue => setData({ ...data, oilUsed: oilInputValue })}
-
               />
               <Divider style={styles.lineStyle} />
 
@@ -268,6 +264,7 @@ export default function OilManagement({ navigation, route }: Props) {
                 onChangeText={oilFilterInputValue => setData({ ...data, oilFilter: oilFilterInputValue })}
               />
               <Divider style={styles.lineStyle} />
+              
               <View style={styles.popUpCardView}>
                 <Button style={styles.addBtn} onPress={addOilToDatabase}>Add</Button>
                 <Button style={styles.cancelBtn} onPress={() => setVisible(false)}>Cancel</Button>

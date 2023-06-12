@@ -6,6 +6,7 @@ import { Props } from '@ui-kitten/components/devsupport/services/props/props.ser
 import React from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Auth } from 'aws-amplify';
 
 export default function Account({ navigation }: Props){
 
@@ -23,6 +24,17 @@ export default function Account({ navigation }: Props){
     </View>
   );
 
+
+  
+
+async function signOut() {
+  try {
+    await Auth.signOut();
+    navigation.navigate('Login');
+  } catch (error) {
+    console.log('error signing out: ', error);
+  }
+}
 
 
     return(
@@ -46,7 +58,7 @@ export default function Account({ navigation }: Props){
         </Card>
         <Button style={styles.signInButton} size='giant'>Reset Password</Button>
 
-        <Button style={styles.signUpButton}  size='giant'>Log Out</Button>
+        <Button style={styles.signUpButton}  onPress={signOut}  size='giant'>Log Out</Button>
 
         <Button style={styles.deleteButton}  size='giant'>Delete Account</Button>
 
