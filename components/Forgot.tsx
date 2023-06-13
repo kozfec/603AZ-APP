@@ -18,7 +18,7 @@ export default function Forgot({ navigation }: Props) {
 
 
 
-    const probaIcon = <Ionicons name="arrow-back-sharp" size={25} color="black" /> //Create a Icon variable
+
     const BackAction = (): React.ReactElement => (
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'/>
     );
