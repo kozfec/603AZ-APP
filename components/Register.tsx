@@ -10,19 +10,15 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export default function Register({ navigation }: Props) {
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
+  const [username, setUsername] = useState(''); //state variable for the input email to be set
+  const [password, setPassword] = useState(''); //state variable for the input password to be set
+  const [name, setName] = useState(''); //state variable for the input username to be set
   const [passwordVisible, setPasswordVisible] = useState(false)
 
 
- /* let arrowCharacter = '<'; //Creates a variable so the < character can be used in text.
-  const BackAction = (): React.ReactElement => (
-    <Button onPress={() => navigation.navigate('Login')} appearance='ghost' status='warning'>{arrowCharacter} Back</Button>
-  );
-  */
 
-  const navigateLogin = () => {
+
+  const navigateLogin = () => { //navigate function for the already have an account button
     navigation.goBack()
   };
   //////////////////////////////////////////////////
@@ -37,10 +33,10 @@ export default function Register({ navigation }: Props) {
   };
   /////////////////////////////////////////////////
 
-  async function signUp() {
+  async function signUp() { //signup function
     try {
-      const email = username;
-      await Auth.signUp({ username, password, attributes: { name, email } });
+      const email = username; 
+      await Auth.signUp({ username, password, attributes: { name, email } }); 
       console.log('Sign-up Confirmed');
       navigation.navigate('Verify');
     } catch (error) {

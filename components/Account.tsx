@@ -7,60 +7,60 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Auth } from 'aws-amplify';
 
 
-export default function Account({ navigation }: Props){
+export default function Account({ navigation }: Props) {
 
 
-  const BackAction = (): React.ReactElement => ( //Icon button for the navbar
-    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHome')}  appearance='ghost'/>
+  const BackAction = (): React.ReactElement => ( //Navbar icon navigation
+    <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHome')} appearance='ghost' />
   );
 
-  const Header = (): React.ReactElement => ( //Header for the cars
+  const Header = (): React.ReactElement => ( //Creates a header for the cards
     <View style={styles.textProba}>
       <Text category='h6'>
         User details
       </Text>
     </View>
   );
- 
 
-async function signOut() {  //Sign out function
-  try {
-    await Auth.signOut();  //Revoke cognito token so cannot generate new Access and Id Tokens
-    navigation.navigate('Login'); //Navigates back to the Login page
-  } catch (error) {
-    console.log('error signing out: ', error);
+
+  async function signOut() {  //Sign out function
+    try {
+      await Auth.signOut();  //Revoke cognito token so cannot generate new Access and Id Tokens
+      navigation.navigate('Login'); //Navigates back to the Login page
+    } catch (error) {  //catches the error and logs it in the console
+      console.log('error signing out: ', error);
+    }
   }
-}
 
-    return(
-        <Layout style={styles.container}>
-        <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Account</Text>} alignment='center' />
-        <SafeAreaView style={{ flex: 1 }}>
+  return (
+    <Layout style={styles.container}>
+      <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>Account</Text>} alignment='center' />
+      <SafeAreaView style={{ flex: 1 }}>
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
-        <View style={styles.headerContainer} >
+          <View style={styles.headerContainer} >
             <Text category='h2'>Hello, User!</Text>
-        
-        </View>
-        <Card style={styles.cardStyle} header={Header}>
-                
-              <Text >Email: fakeuser@fakemail.com</Text>              
-              <Divider style={styles.lineStyle}/>
-              
-              <Text>User Name: Jon Doe</Text>
-              <Divider style={styles.lineStyle}/>
 
-              <Text>Password: ***********</Text>
-        </Card>
-        <Button style={styles.signInButton} size='giant'>Reset Password</Button>
+          </View>
+          <Card style={styles.cardStyle} header={Header}>
 
-        <Button style={styles.signUpButton}  onPress={signOut}  size='giant'>Log Out</Button>
+            <Text >Email: fakeuser@fakemail.com</Text>
+            <Divider style={styles.lineStyle} />
 
-        <Button style={styles.deleteButton}  size='giant'>Delete Account</Button>
+            <Text>User Name: Jon Doe</Text>
+            <Divider style={styles.lineStyle} />
+
+            <Text>Password: ***********</Text>
+          </Card>
+          <Button style={styles.signInButton} size='giant'>Reset Password</Button>
+
+          <Button style={styles.signUpButton} onPress={signOut} size='giant'>Log Out</Button>
+
+          <Button style={styles.deleteButton} size='giant'>Delete Account</Button>
 
         </KeyboardAwareScrollView>
-        </SafeAreaView>
-      </Layout>
-    );
+      </SafeAreaView>
+    </Layout>
+  );
 
 }
 
@@ -75,21 +75,21 @@ const styles = StyleSheet.create({
   headerContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'#12171C',
+    backgroundColor: '#12171C',
     marginTop: 20,
   },
   cardStyle: {
     margin: 10,
     backgroundColor: '#1C3832',
-    justifyContent:"center",
+    justifyContent: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
   },
-  lineStyle:{
+  lineStyle: {
     horizontalInset: true,
-    margin:10,
+    margin: 10,
   },
   signInButton: {
     marginVertical: 12,
@@ -122,6 +122,6 @@ const styles = StyleSheet.create({
   textProba: {
     alignItems: 'center',
     marginBottom: 10,
-    marginTop: 10,    
+    marginTop: 10,
   },
 });

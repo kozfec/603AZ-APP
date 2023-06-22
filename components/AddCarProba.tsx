@@ -14,13 +14,13 @@ export function AddCarProba({ navigation, route }: Props) {
   const [isLoading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [request, setRequest] = useState({
+  const [request, setRequest] = useState({ // state variable for the request to be sent, sets the car reg based on input, and sets the oil change as an empty array.
     carReg: "",
     oilChange: "[]"
   }
   );
 
-  const [data, setData] = useState<IItem>({
+  const [data, setData] = useState<IItem>({ //state variable for the receieved data, sets the data for the IItem from the recieved data
     carMake: "",
     carReg: "",
     carModel: "",
@@ -35,28 +35,28 @@ export function AddCarProba({ navigation, route }: Props) {
     carYear: ""
   });
 
-  const addCarToDatabase = async () => {
-    setLoading(true);
-    const user = await Auth.currentSession();
-    const accessToken = user.getAccessToken().getJwtToken();
-    const idToken = user.getIdToken().getJwtToken();
-    const req = JSON.stringify(request);
+  const addCarToDatabase = async () => { //function to add car to database
+    setLoading(true); //sets the loading indicator while runs
+    const user = await Auth.currentSession(); //sets the user variable for the current user using amplify library
+    const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
+    const idToken = user.getIdToken().getJwtToken(); //sets idToken variable by getting the JWT token from the users idtoken
+    const req = JSON.stringify(request); //stringifies (converts the JSON to string) the request(the provided car reg)
     console.log(req);
     try {
-      const response = await fetch("https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items", {
+      const response = await fetch("https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items", { //api route
         headers: {
-          "Authorization": idToken,
+          "Authorization": idToken, //sets the header as it is required for the authentication
           "accesstoken": accessToken,
           'Content-Type': 'application/json'
         },
-        method: "POST",
-        body: req,
+        method: "POST", //sets the method to be a POST for the database
+        body: req, //sets the body to be the previously set req (the stringified json object)
       });
-      const json = await response.json();
+      const json = await response.json(); //waits for the response and sets it to be json
       console.log(json);
-      setData(json);
+      setData(json);  //sets the data based on the responded json and the usestate state variable
     } catch (error) {
-      console.error('Failed to add car:', error);
+      console.error('Failed to add car:', error); //if there is an error then it returns an error
     }
   };
 
@@ -65,7 +65,7 @@ export function AddCarProba({ navigation, route }: Props) {
 
   const [visible, setVisible] = React.useState(false);
 
-  const Header2 = (): React.ReactElement => (
+  const Header2 = (): React.ReactElement => ( //this is just a header for the return card
     <View style={styles.textProba}>
       <Text category='h6'>
         Car has been added
@@ -73,15 +73,15 @@ export function AddCarProba({ navigation, route }: Props) {
     </View>
   );
 
-  const addCarClick = () => {
-    addCarToDatabase();
-    setVisible(true);
+  const addCarClick = () => { //function to be done for the click event down below
+    addCarToDatabase(); //when taping the button it cals the function ergo adds the stuff to the database
+    setVisible(true); //sets the spinner to be true
   };
 
 
 
 
-  const BackAction = (): React.ReactElement => (
+  const BackAction = (): React.ReactElement => ( // sets the icon in the navbar 
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('UserHomeafterLogin')} appearance='ghost' />
   );
 

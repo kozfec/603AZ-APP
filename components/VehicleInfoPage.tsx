@@ -4,7 +4,6 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Card, Divider, Layout, Text, TopNavigation } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import Account from './Account';
-import Garage from './Garage';
 import UserHome from './UserHome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, Tab } from '@ui-kitten/components';
@@ -21,7 +20,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 export default function VehicleInfoPage({ navigation, route }: Props){
 
-  //const route1 = useRoute();
+
 
   const remainingData = route.params?.remainingData;
 

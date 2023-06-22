@@ -5,25 +5,25 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, ApplicationProvider, Button, Layout, Text, Tab, IconElement, Icon } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
 import Account from './Account';
-import Garage from './Garage';
 import UserHome from './UserHome';
 
 
-const { Navigator, Screen } = createBottomTabNavigator();
+
+const { Navigator, Screen } = createBottomTabNavigator();  //returns an object with navigator and screen properties
 
 
-const BottomTabBar = ({ navigation, state }: Props) => (
+const BottomTabBar = ({ navigation, state }: Props) => ( //renders the bottom navigator with the following settings
     <BottomNavigation
       style={styles.tabBg}
       selectedIndex={state.index}
-      onSelect={index => navigation.navigate(state.routeNames[index])}>
+      onSelect={index => navigation.navigate(state.routeNames[index])}> 
       <BottomNavigationTab title='HOME'/>      
       <BottomNavigationTab title='ACCOUNT'/>
     </BottomNavigation>
   );
   
-  const TabNavigator = () => (
-    <Navigator initialRouteName='UserHome' tabBar={props => <BottomTabBar {...props} />}>
+  const TabNavigator = () => ( //to set the bottom navigator
+    <Navigator initialRouteName='UserHome' tabBar={props => <BottomTabBar {...props} />}> 
       <Screen name='UserHome' component={UserHome}/>
       <Screen name='Account' component={Account}/>
     </Navigator>

@@ -18,12 +18,12 @@ import OilManagement from './OilManagement';
 
 export default function UserHome_1({ navigation, route }: Props) {
  
-    const id= route.params.paramKey;
+    const id= route.params.paramKey; //takes the value of paramkey and sets it to id (the car reg)
   
 
-    const [isLoading, setLoading] = useState(true);
+    const [isLoading, setLoading] = useState(true); //for the spinner
     
-    const [data, setData] = useState<IItem>({
+    const [data, setData] = useState<IItem>({ //state variable for the item interface to be set 
         carReg: "",
         carMake: "",
         carModel: "",
@@ -39,19 +39,17 @@ export default function UserHome_1({ navigation, route }: Props) {
     }
     );   
 
-    //const [data, setData] = useState<IItem[]>([]);
 
 
   
-    const getItem = async () => {
-      
+    const getItem = async () => { //function to get the data 
+       
       try {
-        const user = await Auth.currentSession();
-        const accessToken = user.getAccessToken().getJwtToken();
-        const idToken = user.getIdToken().getJwtToken();
-        //const response = await fetch(`https://0v05jnucib.execute-api.us-east-1.amazonaws.com/Default/items/${id}`,{
-        const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/carinfo/${id}`,{
-          headers: {
+        const user = await Auth.currentSession(); //sets the user variable for the current user using amplify library
+        const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
+        const idToken = user.getIdToken().getJwtToken(); //sets idToken variable by getting the JWT token from the users idtoken
+        const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/carinfo/${id}`,{ //api route
+          headers: { //sets the headers as its required for auth
             "Authorization": idToken,
             "accesstoken": accessToken,
           }
@@ -59,7 +57,7 @@ export default function UserHome_1({ navigation, route }: Props) {
         });
         const json = await response.json();
         console.log(json);
-        json.carInformation = JSON.parse(json.carInformation);
+        json.carInformation = JSON.parse(json.carInformation); //turns to returned data to a json
         setData(json);
       } catch (error) {
         console.error(error);
@@ -72,7 +70,7 @@ export default function UserHome_1({ navigation, route }: Props) {
       getItem();
     }, []);
 
-    const navigateVehicleInfoPage = () => {
+    const navigateVehicleInfoPage = () => { 
       navigation.navigate('VehicleInfoPage', { remainingData: data });
     };//This will navigate to the VehicleInfoPage and pass the remainingData from the carInformation
     // So it doesnt hit the APi again in the VehicleInfoPage

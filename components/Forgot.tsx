@@ -12,14 +12,14 @@ import { Ionicons } from '@expo/vector-icons';
 
 
 
-export default function Forgot({ navigation }: Props) {
-
-    const [email, setEmail] = useState('');
-
-
+export default function Forgot({ navigation }: Props) { //not yet ready
+ 
+    const [email, setEmail] = useState(''); //use state variable for the email when its set
 
 
-    const BackAction = (): React.ReactElement => (
+
+
+    const BackAction = (): React.ReactElement => ( //back icon for navbar
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigation.navigate('Login')}  appearance='ghost'/>
     );
 

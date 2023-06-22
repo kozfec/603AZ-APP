@@ -1,15 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, TouchableOpacity, View, ViewProps, Image, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard, ActivityIndicator, ScrollView } from 'react-native';
-import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, Card, Datepicker, Divider, Icon, IconElement, Layout, Text, TopNavigation, Modal, Input, List } from '@ui-kitten/components';
 import { Props } from '@ui-kitten/components/devsupport/services/props/props.service';
-import Account from './Account';
-import Garage from './Garage';
-import UserHome from './UserHome';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { BottomNavigation, BottomNavigationTab, Tab } from '@ui-kitten/components';
 import React, { useEffect, useState } from 'react';
-import { useRoute } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 import { IItem } from '../interfaces/IItem';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -23,17 +16,16 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 export default function OilManagement({ navigation, route }: Props) {
 
-  //const route1 = useRoute();
 
   const [registration, setRegistration] = useState('');
 
-  const [oil, setOil] = useState<IOil[]>([]);
+  const [oil, setOil] = useState<IOil[]>([]); // sets the oil inteface for the added array
 
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true); //sets the spinner 
 
-  const remainingData = route.params?.remainingData;
+  const remainingData = route.params?.remainingData;  //retrieve the data from the route parameters basically gets the data passed by another page (the car info is the passed data (carreg, carmodel, make etc))
 
-  if (!remainingData) {
+  if (!remainingData) { //in case the remaining data not available sets an error message
     return (
       <Layout style={styles.container}>
         <View style={styles.headerContainer} >
@@ -43,45 +35,43 @@ export default function OilManagement({ navigation, route }: Props) {
     );
   }
 
-  const id = remainingData.carReg;
-  //loop through all of the items and get the one with the same 
-  //const userName = "kozakf%40cu.coventry.ac.uk";
+  const id = remainingData.carReg; //gets the car reg from the above set remaining data
 
-  const getOil = async () => {
+
+  const getOil = async () => { //get oil function
     try {
       console.log(id);
-      const user = await Auth.currentSession();
-      const accessToken = user.getAccessToken().getJwtToken();
-      //console.log(accessToken);
-      const idToken = user.getIdToken().getJwtToken();
-      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, {
+      const user = await Auth.currentSession(); //gets the current user and sets it to the user variable
+      const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
+      const idToken = user.getIdToken().getJwtToken(); //sets idToken  variable by getting the JWT token from the users idtoken
+      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, { //Api route
         headers: {
-          "Authorization": idToken,
+          "Authorization": idToken, //sets the headers as its required to be sent
           "accesstoken": accessToken,
         }
       });
-      const json = await response.json();
+      const json = await response.json(); //sets the json that it gets from the response json
       console.log(json)
-      if (typeof json.oilChange === 'string') {
+      if (typeof json.oilChange === 'string') {  //if the oil change is string then it sets it to json
         json.OilChange = JSON.parse(json.oilChange);
       }
-      setOil(json.OilChange);
+      setOil(json.OilChange); //sets the state variable above described
     } catch (error) {
-      console.log("Hiba can:", error);
+      console.log("Hiba can:", error); //in case there is an error 
     } finally {
-      setLoading(false);
+      setLoading(false); //turns the spinner off
     }
   };
 
-  const navigateItem = (item: IItem) => {
+  const navigateItem = (item: IItem) => { //navigate item function, passes the car reg as item to the userhome page, it'll be used for the navigate back icon on the navbar
     navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
 
-  const BackAction = (): React.ReactElement => (
+  const BackAction = (): React.ReactElement => ( //creates the back action icon for the navbar
     <Ionicons name="arrow-back-sharp" size={25} color="#83AF9F" onPress={() => navigateItem(remainingData.carReg)} appearance='ghost' />
   ); //For the nav bar icon
 
-  const Header = (): React.ReactElement => (
+  const Header = (): React.ReactElement => ( //header for the cards
     <View style={styles.textProba}>
       <Text category='h6'>
         Oil Change History
@@ -89,7 +79,7 @@ export default function OilManagement({ navigation, route }: Props) {
     </View>
   ); //For the card heading
 
-  const Header2 = (): React.ReactElement => (
+  const Header2 = (): React.ReactElement => ( //header for the pop up 
     <View style={styles.textProba}>
       <Text category='h6'>
         Add new oil change
@@ -97,31 +87,26 @@ export default function OilManagement({ navigation, route }: Props) {
     </View>
   );
 
-  const CalendarIcon = (): IconElement => (
+  const CalendarIcon = (): IconElement => ( //icon for the calendar icon
     <FontAwesome name="calendar-plus-o" size={24} color="black" />
   );
 
-  const [dateString, setDateString] = React.useState(''); //For the calendar
+  const [dateString, setDateString] = React.useState(''); //For the calendar to be set as string once date provided
 
-  const [dateCalendar, setDateCalendar] = React.useState(new Date());
+  const [dateCalendar, setDateCalendar] = React.useState(new Date()); //for the calendar to sets the state variable for the set date used on the calendra
 
   const [visible, setVisible] = React.useState(false); //For the modal visibility
 
-  const [odoInputValue, setOdoInputValue] = React.useState(''); //For the modal input for Odometer reading
-
-  const [oilInputValue, setOilInputValue] = React.useState(''); //For the modal input for oil change
-
-  const [oilFilterInputValue, setOilFilterInputValue] = React.useState('');
 
 
-  useEffect(() => {
+  useEffect(() => { //fetches the oil data when the page open
     getOil()
   }, []);
 
 
   ////////////////////////////////////////////////////////////      ADD OIL ///////////////////////////////////////////////////////////////
 
-  const [request, setRequest] = useState({
+  const [request, setRequest] = useState({ //statevariable only because of the date to be set
     dateChanged: "",
     mileageChanged: "",
     oilUsed: "",
@@ -129,38 +114,38 @@ export default function OilManagement({ navigation, route }: Props) {
   }
   );
 
-  const [data, setData] = useState<IOil>({
+  const [data, setData] = useState<IOil>({ //sets teh statevariable to store the following data
     dateChanged: "",
     mileageChanged: "",
     oilUsed: "",
     oilFilter: "",
   });
 
-  const addOilToDatabase = async () => {
+  const addOilToDatabase = async () => { //function to add oil to database
     setLoading(true);
-    const user = await Auth.currentSession();
-    const accessToken = user.getAccessToken().getJwtToken();
-    const idToken = user.getIdToken().getJwtToken();
-    const oilChange = oil;
-    oilChange.push(data);
+    const user = await Auth.currentSession(); //sets the user variable for the current user using amplify library
+    const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
+    const idToken = user.getIdToken().getJwtToken(); //sets idToken variable by getting the JWT token from the users idtoken
+    const oilChange = oil; //assigns the value of state variable above
+    oilChange.push(data); //adds the data to the oilchange array
     try {
-      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, {
-        headers: {
+      const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, { //api route
+        headers: { //sets the headers as its required to be sent for auth
           "Authorization": idToken,
           "accesstoken": accessToken,
           'Content-Type': 'application/json'
         },
-        method: "POST",
-        body: JSON.stringify(oilChange),
-      });
-      const json = await response.json();
+        method: "POST", //the method for the database to add the data
+        body: JSON.stringify(oilChange), // sets the body to be a json string
+      }); 
+      const json = await response.json(); //waits for the response
       console.log(json)
-      setVisible(false)
+      setVisible(false) //disables the modal
     } catch (error) {
-      console.error('Failed to olaj:', error);
-    }
+      console.error('Failed to olaj:', error); //catches error
+    } 
     finally {
-      setLoading(false);
+      setLoading(false); //turns off the spinner
     }
   };
 
@@ -188,9 +173,9 @@ export default function OilManagement({ navigation, route }: Props) {
 
 
 
-  var mileageToAdd = 6000; //mileage to be added to the value at oil change
+  var mileageToAdd = 6000; //adds mileage to the provided mileage
 
-  const dateUntill = Date.parse(data.dateChanged)
+  const dateUntill = Date.parse(data.dateChanged) //not yet working but tries to add a year to the date
 
 
   return (

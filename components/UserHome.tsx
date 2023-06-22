@@ -21,7 +21,7 @@ import { AddCarProba } from './AddCarProba';
 
 const Stack = createStackNavigator();
 
-function UserHomeStack() {
+function UserHomeStack() { //sets a stack navigator for the userhome with the following stacks
   return (
     <Stack.Navigator>
       <Stack.Screen name='UserHomeafterLogin' component={UserHomeafterLogin} />
@@ -40,7 +40,7 @@ export default function UserHomes({ navigation }: Props) {
   )
 }
 
-//const auth.signOut <---call function for sign out
+
 
 
 export function UserHomeafterLogin({ navigation }: Props) {
@@ -58,20 +58,20 @@ export function UserHomeafterLogin({ navigation }: Props) {
 
 
 
-  const getItems = async () => {
-    const user = await Auth.currentSession();
-    const accessToken = user.getAccessToken().getJwtToken();
-    const idToken = user.getIdToken().getJwtToken();
+  const getItems = async () => { //function to get items from database
+    const user = await Auth.currentSession(); //sets the user variable for the current user using amplify library
+    const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
+    const idToken = user.getIdToken().getJwtToken(); //sets idToken variable by getting the JWT token from the users idtoken
     try {
-      const response = await fetch('https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items', {
-        headers: {
+      const response = await fetch('https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items', { //api route
+        headers: { //sets the header
           "Authorization": idToken,
           "accesstoken": accessToken
         }
       });
       const json = await response.json();
       console.log(json);
-      setData(json);
+      setData(json); //sets the data from the returned json
     } catch (error) {
       console.error(error);
     } finally {
@@ -88,7 +88,7 @@ export function UserHomeafterLogin({ navigation }: Props) {
     navigation.navigate('AddCarProba')
   };
 
-  const navigateItem = async (item: IItem) => {
+  const navigateItem = async (item: IItem) => { //sets the paramkey as carreg for the navigation page
       navigation.navigate('UserHome_1', { paramKey: item.carReg })
   }
 
