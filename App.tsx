@@ -16,12 +16,20 @@ import { Amplify } from 'aws-amplify';
 import VehicleInfoPage from './components/VehicleInfoPage';
 
 
-Amplify.configure({
+/*Amplify.configure({
   Auth: {
     mandatorySignin: true,
     region: "us-east-1",
     userPoolId: "us-east-1_mD3h5Ek3u",
     userPoolWebClientId: "2itvgt61rhupf6jirr0merjiu6",
+  }
+});*/
+Amplify.configure({
+  Auth: {
+    mandatorySignin: true,
+    region: "us-east-1",
+    userPoolId: "us-east-1_I0moTGNdI",
+    userPoolWebClientId: "5u997tdpg099nffs5s11k29rga",
   }
 });
 
