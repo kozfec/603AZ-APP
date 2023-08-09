@@ -29,7 +29,7 @@ export default function Verify({ navigation }: Props){
     return(
         <Layout style={styles.container}>
           <SafeAreaView style= {{flex:1}}>
-          <TopNavigation style={styles.barBg} title={props => <Text {...props}>VaporAudio</Text>} alignment='center' />
+          <TopNavigation style={styles.barBg} title={props => <Text {...props}>GreenGarage</Text>} alignment='center' />
           <View style= {styles.headerContainer}>
             <Text category='h1'>
                 Thanks for registering
