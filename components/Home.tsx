@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { BottomNavigation, BottomNavigationTab, ApplicationProvider, Button, Layout, Text, Tab, IconElement, Icon } from '@ui-kitten/components';
@@ -23,18 +23,20 @@ const BottomTabBar = ({ navigation, state }: Props) => ( //renders the bottom na
   );
   
   const TabNavigator = () => ( //to set the bottom navigator
-    <Navigator initialRouteName='UserHome' tabBar={props => <BottomTabBar {...props} />}> 
-      <Screen name='UserHome' component={UserHome}/>
+  <SafeAreaView style={{ flex: 1 }}> 
+    <Navigator initialRouteName='UserHome'  screenOptions={{ headerShown: false }} tabBar={props => <BottomTabBar {...props}/>}> 
+      <Screen name='UserHome' component={UserHome} />
       <Screen name='Account' component={Account}/>
-    </Navigator>
+    </Navigator></SafeAreaView>
   );
 
 
 export default function Home({ navigation }: Props){
     return(
-        <Layout style={styles.container}>
-            <TabNavigator/>
-      </Layout>      
+      
+        <Layout style={styles.container}>          
+            <TabNavigator/>            
+      </Layout>     
     );
 }
 

@@ -43,7 +43,6 @@ export function AddCarProba({ navigation, route }: Props) {
     const req = JSON.stringify(request); //stringifies (converts the JSON to string) the request(the provided car reg)
     console.log(req);
     try {
-      //const response = await fetch("https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/items", { //api route
       const response = await fetch("https://vced01bhu8.execute-api.us-east-1.amazonaws.com/Default/items", { //api route
         headers: {
           "Authorization": idToken, //sets the header as it is required for the authentication

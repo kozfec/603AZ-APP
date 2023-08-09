@@ -24,9 +24,10 @@ export default function Forgot({ navigation }: Props) { //not yet ready
     );
 
     return (
-        <Layout style={styles.container} >
+    
+        <Layout style={styles.container} ><SafeAreaView style={{ flex: 1 }}>
             <TopNavigation accessoryLeft={BackAction} style={styles.barBg} />
-            <SafeAreaView style={{ flex: 1 }}>
+            
                 <KeyboardAwareScrollView
                     style={{ backgroundColor: '#12171C' }}
                     scrollEnabled={true}
@@ -54,6 +55,7 @@ export default function Forgot({ navigation }: Props) { //not yet ready
                 </Button>
             </SafeAreaView>
         </Layout>
+        
     );
 
 }

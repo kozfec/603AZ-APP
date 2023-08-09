@@ -48,7 +48,6 @@ export default function UserHome_1({ navigation, route }: Props) {
         const user = await Auth.currentSession(); //sets the user variable for the current user using amplify library
         const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
         const idToken = user.getIdToken().getJwtToken(); //sets idToken variable by getting the JWT token from the users idtoken
-       // const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/carinfo/${id}`,{ //api route
         const response = await fetch(`https://vced01bhu8.execute-api.us-east-1.amazonaws.com/Default/carinfo/${id}`,{
           headers: { //sets the headers as its required for auth
             "Authorization": idToken,
@@ -95,9 +94,10 @@ export default function UserHome_1({ navigation, route }: Props) {
 
 
     return(
-        <Layout style={styles.container}>          
+        <Layout style={styles.container}>  
+            
         <TopNavigation style={styles.barBg} accessoryLeft={BackAction}  title={props => <Text {...props}>Manage Your Car</Text>} alignment='center' />
-        <SafeAreaView style={{ flex: 1 }}>
+        
         {isLoading ? <ActivityIndicator size='large' style={styles.spinner} color="#83AF9F" /> : (
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
         
@@ -134,7 +134,7 @@ export default function UserHome_1({ navigation, route }: Props) {
             
         </KeyboardAwareScrollView>
         )}
-        </SafeAreaView>   
+        
         </Layout>
 
     )

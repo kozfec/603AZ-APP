@@ -43,9 +43,8 @@ export default function OilManagement({ navigation, route }: Props) {
       console.log(id);
       const user = await Auth.currentSession(); //gets the current user and sets it to the user variable
       const accessToken = user.getAccessToken().getJwtToken(); //sets accessToken  variable by getting the JWT token from the users accesstoken
-      const idToken = user.getIdToken().getJwtToken(); //sets idToken  variable by getting the JWT token from the users idtoken
-      //const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, { //Api route
-      const response = await fetch(`https://vced01bhu8.execute-api.us-east-1.amazonaws.com/Default/oildata/${id}`, {
+      const idToken = user.getIdToken().getJwtToken(); //sets idToken  variable by getting the JWT token from the users idtoken 
+      const response = await fetch(`https://vced01bhu8.execute-api.us-east-1.amazonaws.com/Default/oildata/${id}`, { //Api route
       
         headers: {
           "Authorization": idToken, //sets the headers as its required to be sent
@@ -131,7 +130,6 @@ export default function OilManagement({ navigation, route }: Props) {
     const oilChange = oil; //assigns the value of state variable above
     oilChange.push(data); //adds the data to the oilchange array
     try {
-      //const response = await fetch(`https://y6bhm2g1q1.execute-api.us-east-1.amazonaws.com/oildata/${id}`, { //api route
       const response = await fetch(`https://vced01bhu8.execute-api.us-east-1.amazonaws.com/Default/oildata/${id}`, { //api route
         headers: { //sets the headers as its required to be sent for auth
           "Authorization": idToken,

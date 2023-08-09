@@ -64,9 +64,9 @@ export default function Login({ navigation }: Props) {
 
 
 
-  return (
+  return (<SafeAreaView style={{ flex: 1 }} >
     <Layout style={styles.container}>
-      <SafeAreaView style={{ flex: 1 }} >
+      
         <KeyboardAwareScrollView
           style={{ backgroundColor: '#12171C' }}
           scrollEnabled={true}
@@ -81,12 +81,6 @@ export default function Login({ navigation }: Props) {
                 style={{ width: 350, height: 250 }} />
             </View>
           </View>
-
-
-
-
-
-
           <View style={styles.formContainer}>
             <Input //Email Input
               style={styles.passwordInput}
@@ -131,8 +125,8 @@ export default function Login({ navigation }: Props) {
           onPress={navigateRegister}>
           Create an account
         </Button>
-      </SafeAreaView>
-    </Layout>
+      
+    </Layout></SafeAreaView>
   );
 }
 

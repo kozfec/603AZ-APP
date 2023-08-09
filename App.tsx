@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import { StyleSheet } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider, Button, IconRegistry, Layout, Text } from '@ui-kitten/components';
 import { NavigationContainer } from '@react-navigation/native';
@@ -40,13 +40,14 @@ const Stack = createStackNavigator();
 
 function AuthStack(){ //Dan nevezte el az authStackot authStacknak
   return(
-    <Stack.Navigator>
+    <SafeAreaView style={{ flex: 1 }}> 
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name = "Login" component={Login}/>
       <Stack.Screen name = "Verify" component={Verify}/>
       <Stack.Screen name = "Register" component={Register}/>
       <Stack.Screen name = "Forgot" component={Forgot}/>
-      <Stack.Screen name ="Home" component={Home} options={{gestureEnabled: false}}/>
-    </Stack.Navigator>
+      <Stack.Screen name ="Home" component={Home} options={{gestureEnabled: false}} />
+    </Stack.Navigator></SafeAreaView>
   );
 
 }
@@ -58,7 +59,7 @@ export default function App() {
     <>
     <IconRegistry icons={EvaIconsPack} /> 
     <ApplicationProvider {...eva} theme={{...eva.dark, ...myTheme}}>  
-      <NavigationContainer>
+      <NavigationContainer >
         <AuthStack/>
       </NavigationContainer>
     </ApplicationProvider>

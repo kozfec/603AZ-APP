@@ -33,9 +33,11 @@ export default function Account({ navigation }: Props) {
   }
 
   return (
+  <SafeAreaView style={{ flex: 1 }}> 
     <Layout style={styles.container}>
+      
       <TopNavigation style={styles.barBg} accessoryLeft={BackAction} title={props => <Text {...props}>Account</Text>} alignment='center' />
-      <SafeAreaView style={{ flex: 1 }}>
+      
         <KeyboardAwareScrollView style={{ backgroundColor: '#12171C' }} scrollEnabled={true}>
           <View style={styles.headerContainer} >
             <Text category='h2'>Hello, User!</Text>
@@ -43,10 +45,10 @@ export default function Account({ navigation }: Props) {
           </View>
           <Card style={styles.cardStyle} header={Header}>
 
-            <Text >Email: fakeuser@fakemail.com</Text>
+            <Text >Email: kozakf@cu.coventry.ac.uk</Text>
             <Divider style={styles.lineStyle} />
 
-            <Text>User Name: Jon Doe</Text>
+            <Text>User Name: kozakf</Text>
             <Divider style={styles.lineStyle} />
 
             <Text>Password: ***********</Text>
@@ -58,8 +60,9 @@ export default function Account({ navigation }: Props) {
           <Button style={styles.deleteButton} size='giant'>Delete Account</Button>
 
         </KeyboardAwareScrollView>
-      </SafeAreaView>
+      
     </Layout>
+    </SafeAreaView>
   );
 
 }

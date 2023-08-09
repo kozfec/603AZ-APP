@@ -50,9 +50,9 @@ export default function Register({ navigation }: Props) {
 
 
 
-  return (
+  return (<SafeAreaView style={{ flex: 1 }}>
     <Layout style={styles.container}>
-      <SafeAreaView style={{ flex: 1 }}>
+      
         <KeyboardAwareScrollView
           style={{ backgroundColor: '#12171C' }}
           scrollEnabled={true}
@@ -110,8 +110,8 @@ export default function Register({ navigation }: Props) {
           onPress={navigateLogin}>
           Already have an account? Sign In
         </Button>
-      </SafeAreaView>
-    </Layout>
+      
+    </Layout></SafeAreaView>
 
   );
 
